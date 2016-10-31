@@ -311,7 +311,7 @@ public class SheduleView extends JPanel
       
 
         commandCombo= new JComboBox(comboCommandsString);
-        commandCombo.setSelectedIndex(day);
+        commandCombo.setSelectedIndex(day-1);
         final String fontName = commandCombo.getSelectedItem().toString();
         commandCombo.setFont(new Font(fontName, Font.BOLD, 20));
         commandCombo.addItemListener(new ItemListener() {
