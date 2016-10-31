@@ -1,0 +1,10 @@
+----------------------------------------------------------------
+Mon Oct 31 00:48:56 EET 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0158-17c8-0ba6-000000bd5e08 
+on database directory /home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/MY_FOURTY_PINS_INANDOUT_SHEDULE_TABLE  with class loader sun.misc.Launcher$AppClassLoader@dad5dc 
+Loaded from file:/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/libs/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_65-b17
+user.dir=/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
