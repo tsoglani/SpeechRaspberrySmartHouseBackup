@@ -1,5 +1,5 @@
--sudo apt-get install rpi-update
--sudo BRANCH=next rpi-update
+-sudo apt-get install rpi-update</br>
+-sudo BRANCH=next rpi-update</br>
 -sudo apt-get install mpg123
 
 
