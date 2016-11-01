@@ -1,5 +1,5 @@
 You can use this project to open or close an electric device like lights tv kitcken .. etc..
-this project gives 15 outputs an 15 inputs.
+this project gives 13 outputs an 13 inputs.
 
 Each input is bind to one output.
 
