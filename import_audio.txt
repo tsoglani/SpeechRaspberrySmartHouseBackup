@@ -3,6 +3,7 @@
 -sudo apt-get install mpg123
 
 
+#If you are using external usb sound card:
 
 
 **On Raspberry jessie
@@ -22,23 +23,7 @@ type hw card 1
 
 
 "
-****OR*****
 
-"
-pcm.!default {
-type mmap_emul;
-slave{
-pcm "hw:1,1";
-}
-}
-ctl.!default {
-type plug;
-slave{
-pcm mmap0;
-}
-
-}
-"
 
 **On Raspberry wheezy
 -sudo nano /etc/mo/modprobe.d/alsa-base.conf
@@ -46,5 +31,8 @@ and change
    #options snd-usb-audio index=0    (might be =-2)
   to  options snd-usb-audio index=0 
 
+
+
+Finally
 
 -reboot
