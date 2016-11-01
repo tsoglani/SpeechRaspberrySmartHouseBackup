@@ -1,12 +1,2 @@
-------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all he/she needs to know. The comments should usually include at least:
-------------------------------------------------------------------------
-
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
-USER INSTRUCTIONS:
+You can use this project to open or close an electric device like lights tv kitcken .. etc..
+this project gives 26 outputs and 0 inputs( inputs can be used if you want for example to use it to open or close lights and you want to have light switches at the same time). If you want to have inputs this is your project https://github.com/tsoglani/Raspberry_SmartHouseServer . 
