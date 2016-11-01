@@ -46,7 +46,7 @@ How to run the application on raspberry startup :
 first [Extract jar file](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_1_Version/extract%20jar%20file)  </br>
 then [Run project On Startup](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_1_Version/RunOnStartup.txt)
 
-info [Raspberry 2B-3 GPIO's map ](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/20160925_212252.jpg)
+info [Raspberry 3B GPIO's map ](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/20160925_212252.jpg)
 
 
 Enjoy...
