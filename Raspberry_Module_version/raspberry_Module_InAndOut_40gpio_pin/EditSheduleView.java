@@ -140,12 +140,12 @@ minLabel.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 20));
         firstRow.setLayout (new GridLayout(1,7));
         secondRow= new JPanel();
 
-        cancelIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/SmartHouseRaspberryServer/cancel3.png");
+        cancelIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/cancel3.png");
         cancelIcon=new ImageIcon(fr.getScaledImage(cancelIcon.getImage(),(int)(fr.height/15), (int)(fr.height/15)));
 
         cancel= new JButton(cancelIcon);
 
-        ImageIcon saveIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/SmartHouseRaspberryServer/save.png");
+        ImageIcon saveIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/save.png");
         saveIcon=new ImageIcon(fr.getScaledImage(saveIcon.getImage(),(int)(fr.height/15), (int)(fr.height/15)));
         save = new JButton(saveIcon);
 
