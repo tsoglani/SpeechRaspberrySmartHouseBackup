@@ -204,73 +204,73 @@ public class SH {
             GpioPinDigitalOutput pin=null;
             switch (i) {
                 case 0:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_00, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 1:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_01, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 2:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_02, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 3:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_03, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 4:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_04, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 5:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_05, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 6:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_06, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 7:
-                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_07, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                 break;
                                      case 8:
-                                         pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                         pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_08, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 9:
-                                         pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                         pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_09, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 10:
-                                         pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                         pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_10, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 11:
-                                         pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_11, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                         pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_11, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 12:
-                                         pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                         pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_12, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 13:
-                                         pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                         pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_13, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 14:
-                                        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                        pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_14, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                         break;
                                      case 15:
-                                        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_15, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                        pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_15, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                     case 16:
-                                        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_16, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                        pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_16, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 17:
-                                       pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_17, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                       pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_17, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                    case 18:
-                                         pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_18, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                         pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_18, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                          break;
                                      case 19:
-                                        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_19, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                        pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_19, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                         break;
                                     case 20:
-                                        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_20, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                        pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_20, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                       break;
  case 21:
-                                        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_21, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                        pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_21, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                       break;
  case 22:
-                                        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_22, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
+                                        pin = gpio.provisionDigitalOutputPin(RCMPin.GPIO_22, "PinLED" + i,com.pi4j.io.gpio.PinState.LOW);
                                       break;
 
 
@@ -291,93 +291,93 @@ public class SH {
             GpioPinDigitalInput myButton = null;
             switch (i) {
                 case 0:
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_23, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_23, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                 break;
                 case 1:// commands for input no 1
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_24, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_24, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
 
                 break;
                 case 2://commands for input no 2
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_25, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_25, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
 
                 break;
                 case 3:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_26,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_26,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
 
                 break;
                 case 4:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_27, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_27, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
 
                 break;
                 case 5:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_28, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_28, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
 
                 break;
                 case 6:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_29, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_29, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
 
                 break;
                 case 7:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_30, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_30, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
 
                 break;
                                  case 8:// commands for input no 3
-                                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_31, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                    myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_31, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                 
                                     break;
                                  case 9:// commands for input no 3
-                                   myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_32,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                   myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_32,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
               
                                  break;
                                case 10:// commands for input no 3
-                                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_33, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                    myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_33, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
               
                                    break;
                               case 11:// commands for input no 3
-                                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_34,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                    myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_34,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                
                                    break;
                             case 12:// commands for input no 3
-                                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_35,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                    myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_35,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                             break;
                                 case 13:// commands for input no 3
-                                     myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_36, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                     myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_36, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                  
                                      break;
                                  case 14:// commands for input no 3
-                                     myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_37,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                     myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_37,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                  
                                      break;
                                 case 15:// commands for input no 3
-                                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_38,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                    myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_38,com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                
                                   break;
                                case 16:// commands for input no 3
-                                  myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_39, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                  myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_39, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
               
                                      break;
                                case 17:// commands for input no 3
-                                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_40, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                    myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_40, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                  
                                  break;
                                 case 18:// commands for input no 3
-                                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_41, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_41, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                
                                     break;
                                case 19:// commands for input no 3
-                                   myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_42, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                   myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_42, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                
                                      break;
                                case 20:// commands for input no 3
-                                  myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_43, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                  myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_43, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                  
                                      break;
   case 21:// commands for input no 3
-                                  myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_44, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                  myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_44, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                  
                                      break;
   case 22:// commands for input no 3
-                                  myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_45, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                  myButton = gpio.provisionDigitalInputPin(RCMPin.GPIO_45, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
                  
                                      break;
   
