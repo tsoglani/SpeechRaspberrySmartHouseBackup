@@ -1,0 +1,50 @@
+Installing Kernel Support 
+from https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c
+
+if you have not type already the following commands, type on cmd
+    sudo apt-get install -y python-smbus
+    sudo apt-get install -y i2c-tools
+
+
+
+**first way
+
+
+on cmd type
+"sudo raspi-config"
+--> "Advanced Options"
+--> "I2C"
+--> "YES"
+--> "YES"
+
+
+**second way
+
+
+on cmd type
+
+-"sudo nano /etc/modules"
+ and add these 2 lines at the end
+ "
+    i2c-bcm2708 
+    i2c-dev
+ "
+-   type "sudo nano /etc/modprobe.d/raspi-blacklist.conf"
+and change 
+    blacklist spi-bcm2708
+    blacklist i2c-bcm2708
+to
+  #blacklist spi-bcm2708
+  #blacklist i2c-bcm2708
+- type "sudo nano /boot/config.txt"
+and add 
+"
+dtparam=i2c1=on
+dtparam=i2c_arm=on
+"
+
+
+
+Testing I2C
+ sudo i2cdetect -y 1
+

@@ -1,0 +1,30 @@
+from https://cdn-learn.adafruit.com/downloads/pdf/adafruit-16-channel-servo-driver-with-raspberry-pi.pdf
+
+sudo apt-get install python-smbus
+sudo apt-get install i2c-tools
+
+
+**i2c-tools
+ isn't strictly required, but it's a useful package since you can use it to scan for any I2C or
+SMBus devices connected to your board. 
+If you know something is connected, but you don't know it's
+7-bit I2C address, this library has a great little tool to help you find it. 
+python-smbus
+ is required, it
+adds the I2C support for python!
+If you have Raspbian, not Occidentalis check /etc/modprobe.d/raspi-blacklist.conf 
+and comment
+"blacklist i2c-bcm2708"
+ by running 
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+ and
+ adding
+a #
+ (if its not there). 
+If you're running Wheezy or something-other-than-Occidentalis, you will need to 
+add the following lines to /etc/modules 
+
+ i2c-dev 
+i2c-bcm2708
+
+and then reboot.
