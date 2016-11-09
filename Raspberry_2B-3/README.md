@@ -1,8 +1,11 @@
 # Raspberry_SmartHouseServer
 
 
-This file contains two project:
--raspberry_1_InAndOut_40gpio_pin: 13 outputs 13 inputs ( if you want to use it with switches for example light switches ). -raspberry_1_Out_40gpio_pin: only outputs and no input ( 26 out 0 in).
+This file contains three project:
+-raspberry_1_InAndOut_40gpio_pin: 13 outputs 13 inputs ( if you want to use it with switches for example light switches ).
+-raspberry_1_Out_40gpio_pin: only outputs and no input ( 26 out 0 in).
+-raspberry_2a_Extension_PCA9685: if you have pca9685 extension (gives 16 more gpio pins).
+
 
 In both project, you can send commands from : 
 1)your touchscreen monitor connectet to raspberry pi
