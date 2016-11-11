@@ -319,52 +319,52 @@ public class SH {
                     break;
 
                 case 26:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_00, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_00, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 27:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_01, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_01, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 28:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_02, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_02, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 29:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_03, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_03, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 30:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_04, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_04, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 31:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_05, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_05, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 32:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_06, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_06, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 33:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_07, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_07, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 34:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_08, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_08, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 35:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_09, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_09, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 36:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_10, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_10, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 37:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_11, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_11, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 38:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_12, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_12, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 39:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_13, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_13, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 40:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_14, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_14, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
                 case 41:
-                    pin = gpio.provisionDigitalOutputPin(provider, PCA9685Pin.PWM_15, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
+                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_15, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
 
             }
