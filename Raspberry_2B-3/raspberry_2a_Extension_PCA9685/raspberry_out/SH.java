@@ -141,7 +141,7 @@ public class SH {
     //// end of user editable part
     protected ArrayList<String>[] outputPowerCommands = new ArrayList[NumberOfBindingCommands];
     private ArrayList<Integer>[] activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
-    private final int raspberryOutputs = 41;// 0 - 16,21-29 plus external 0-15
+    private final int raspberryOutputs = 40;// 0 - 16,21-29 plus external 0-15
     protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
     private ArrayList<GpioPinDigitalInput>[] inputButtons = new ArrayList[raspberryOutputs];
     private GpioPinDigitalOutput pins[] = new GpioPinDigitalOutput[raspberryOutputs];
@@ -263,107 +263,107 @@ public class SH {
                 case 7:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
+                //case 8:
+               //     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
+                //    break;
+              //  case 9:
+                 //   pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
+              //      break;
                 case 8:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 9:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 10:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 11:
+                case 9:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_11, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 12:
+                case 10:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 13:
+                case 11:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 14:
+                case 12:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 15:
+                case 13:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_15, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 16:
+                case 14:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_16, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 17:
+                case 15:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_21, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 18:
+                case 16:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_22, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 19:
+                case 17:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 20:
+                case 18:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 21:
+                case 19:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_25, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 22:
+                case 20:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 23:
+                case 21:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 24:
+                case 22:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 25:
+                case 23:
                     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                     break;
 
-                case 26:
+                case 24:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_00, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 27:
+                case 25:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_01, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 28:
+                case 26:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_02, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 29:
+                case 27:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_03, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 30:
+                case 28:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_04, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 31:
+                case 29:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_05, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 32:
+                case 30:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_06, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 33:
+                case 31:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_07, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 34:
+                case 32:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_08, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 35:
+                case 33:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_09, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 36:
+                case 34:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_10, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 37:
+                case 35:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_11, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 38:
+                case 36:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_12, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 39:
+                case 37:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_13, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 40:
+                case 38:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_14, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
-                case 41:
+                case 39:
                     pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_15, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
                     break;
 
