@@ -242,20 +242,7 @@ public class Recognizer {
     }
 
 
-    public GoogleResponse getRecognizedDataForBytes(byte[] waveFile,AudioFormat format, int maxResults) throws IOException{
-        FlacEncoder flacEncoder = new FlacEncoder();
-        File flacFile = new File("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/tempFlag.flac");
-
-        flacEncoder.convertByteToFlac(waveFile,format, flacFile);
-        
-        GoogleResponse googleResponse = getRecognizedDataForFlac(flacFile, maxResults,44100);
-        
-        //Delete converted FLAC data
-        flacFile.delete();
-
-System.out.println("getRecognizedDataForBytes finish");
-        return googleResponse;
-    }
+  
 
     /**
      * Get recognized data from a Wave file.  This method will encode the wave file to a FLAC
