@@ -128,7 +128,7 @@ public class Fr extends JFrame
                     goHome();
                     isOnMainMenu=true;
                     SheduleView.selectedOption=null;
-                    toggle.setText("Commands Mode");
+
                 }
             });
 
@@ -220,6 +220,21 @@ public class Fr extends JFrame
         this.setSize((int)width,(int)height);
         mainMenu();
         setLocation(0,0);
+        
+         manual.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    manualSelected();
+                }
+            });
+          speechButton.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    if(speechButton.getIcon()==speechIcon){
+                        sh.jarvis.activate();
+                    }else if(speechButton.getIcon()==stop_speechIcon){
+                        sh.jarvis.deActivate();
+                    }
+                }
+            });
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);    
@@ -266,15 +281,7 @@ public class Fr extends JFrame
 
             speechButton.setIcon(stop_speechIcon);
         }
-        speechButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    if(speechButton.getIcon()==speechIcon){
-                        sh.jarvis.activate();
-                    }else if(speechButton.getIcon()==stop_speechIcon){
-                        sh.jarvis.deActivate();
-                    }
-                }
-            });
+      
 
         JPanel lineBeginExtraPanel= new JPanel();
         lineBeginExtraPanel.setLayout(new GridLayout(1,2));
@@ -303,11 +310,7 @@ public class Fr extends JFrame
         menuPanel.add(auto);
         mainMenuPanel.add(menuPanel);
         mainMenuPanel.add(extraInfoPanel,BorderLayout.PAGE_END);
-        manual.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    manualSelected();
-                }
-            });
+       
         add(mainMenuPanel);
         mainMenuPanel.repaint();
         mainMenuPanel.revalidate();
@@ -352,9 +355,11 @@ public class Fr extends JFrame
         if(toggle.getText().equals("Output Mode")){
             usingList=sh.outputCommands;
             neededOutputs=sh.getAllOutput();
+
         }else{
             usingList=sh.outputPowerCommands;
             neededOutputs=sh.getAllCommandOutput();
+
         }
         switcButtons=new JButton[usingList.length];
         String [] outputs=neededOutputs.split("@@@");
@@ -407,6 +412,8 @@ public class Fr extends JFrame
                     textNeededFromOutput=outputs[j].substring(0,outputs[j].length()-1-"off".length());
                     isOn=false;
                 }
+                
+
                 if(textNeededFromOutput!=null&&textNeededFromOutput.equals(button.getText())){
                     if(isOn){
                         button.setBackground(Color.GREEN);

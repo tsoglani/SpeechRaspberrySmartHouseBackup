@@ -28,21 +28,22 @@ public class Fr extends JFrame
     protected boolean isSwitchModeSelected=false;
     protected boolean isTimerModeSelected=false;
     protected boolean isSheduleModeSelected=false;
+    protected boolean isOnMainMenu=true;
     private String state="off";
     protected JButton home;
     protected SH sh;
-    ArrayList <JButton> switcButtons;
+    JButton[] switcButtons;
     protected  SheduleView shv;
     ImageIcon speechIcon;
     ImageIcon stop_speechIcon;
-    private JToggleButton toggle;
+    JToggleButton toggle;
     JButton speechButton;
     JLabel speechTextLabel;
     JButton alarmButton;
     JButton findMobileButton;
     ImageIcon alarmIcon;
     JPanel extraInfoPanel;
-    ImageIcon findMobileIcon,cancelOkIcon,cancelNot_okIcon;
+    ImageIcon findMobileIcon,cancelOkIcon,cancelNot_okIcon,upIcon,downIcon;
     private ImageIcon findMobileAbcIcon;
     JPanel addAlarmPanel;
     /**
@@ -56,39 +57,40 @@ public class Fr extends JFrame
         Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
         width=screenSize.getWidth();
         height=screenSize.getHeight();
-        
-   
-
 
     
-//      StyleContext context = new StyleContext();
-//     StyledDocument document = new DefaultStyledDocument(context);
-// 
-//     Style style = context.getStyle(StyleContext.DEFAULT_STYLE);
-// 
-//     StyleConstants.setBackground(style, Color.blue);
-// 
-//     try {
-//       document.insertString(document.getLength(), "java2s.com", style);
-//                 speechTextLabel= new JTextPane(document);
-//     } catch (Exception e) {
-//       // TODO Auto-generated catch block
-//           speechTextLabel= new JTextPane();
-//       e.printStackTrace();
-//     }
-         speechTextLabel= new JLabel();
+        //      StyleContext context = new StyleContext();
+        //     StyledDocument document = new DefaultStyledDocument(context);
+        // 
+        //     Style style = context.getStyle(StyleContext.DEFAULT_STYLE);
+        // 
+        //     StyleConstants.setBackground(style, Color.blue);
+        // 
+        //     try {
+        //       document.insertString(document.getLength(), "java2s.com", style);
+        //                 speechTextLabel= new JTextPane(document);
+        //     } catch (Exception e) {
+        //       // TODO Auto-generated catch block
+        //           speechTextLabel= new JTextPane();
+        //       e.printStackTrace();
+        //     }
+        speechTextLabel= new JLabel();
 
-
-  //      SimpleAttributeSet attribs = new SimpleAttributeSet();
-//StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
-//speechTextLabel.setParagraphAttributes(attribs, true);
-
+        //      SimpleAttributeSet attribs = new SimpleAttributeSet();
+        //StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
+        //speechTextLabel.setParagraphAttributes(attribs, true);
 
         ImageIcon homeIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/home.png");
-        homeIcon=new ImageIcon(getScaledImage(homeIcon.getImage(),(int)(height/20), (int)(height/20)));
+        homeIcon=new ImageIcon(getScaledImage(homeIcon.getImage(),(int)(height/10), (int)(height/10)));
 
         alarmIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/alarm.png");
         alarmIcon=new ImageIcon(getScaledImage(alarmIcon.getImage(),(int)(height/10), (int)(height/10)));
+
+        upIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/up.png");
+        upIcon=new ImageIcon(getScaledImage(upIcon.getImage(),(int)(height/10), (int)(height/10)));
+
+        downIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/down.png");
+        downIcon=new ImageIcon(getScaledImage(downIcon.getImage(),(int)(height/10), (int)(height/10)));
 
         cancelOkIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/ok.png");
         cancelOkIcon=new ImageIcon(getScaledImage(cancelOkIcon.getImage(),(int)(height/10), (int)(height/10)));
@@ -103,9 +105,9 @@ public class Fr extends JFrame
         ImageIcon manualIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/manual.png");
         manualIcon=new ImageIcon(getScaledImage(manualIcon.getImage(),(int)(width/4), (int)(3*height/5)));
         speechIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/speech.png");
-        speechIcon=new ImageIcon(getScaledImage(speechIcon.getImage(),(int)(height/20), (int)(height/10)));
+        speechIcon=new ImageIcon(getScaledImage(speechIcon.getImage(),(int)(height/10), (int)(height/10)));
         stop_speechIcon=new ImageIcon("/home/pi/Desktop/SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/stop_speech.jpg");
-        stop_speechIcon=new ImageIcon(getScaledImage(stop_speechIcon.getImage(),(int)(height/20), (int)(height/20)));
+        stop_speechIcon=new ImageIcon(getScaledImage(stop_speechIcon.getImage(),(int)(height/10), (int)(height/10)));
         speechButton= new JButton();
         alarmButton= new JButton();
         manual= new JButton(manualIcon);
@@ -123,29 +125,12 @@ public class Fr extends JFrame
         home= new JButton(homeIcon);
         home.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                    mainMenu();
-                    isSwitchModeSelected=false;
-                    isTimerModeSelected=false;
-                    isSheduleModeSelected=false;
-                    shv=null;
-                    toggle.setText("Commands Mode");
+                    goHome();
+                    isOnMainMenu=true;
+                    SheduleView.selectedOption=null;
+
                 }
             });
- toggle.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-
-                    if(!toggle.isSelected()){
-
-                        toggle.setText("Commands Mode");
-                        manualSelected();
-                    }else{
-                        toggle.setText("Output Mode");
-                        manualSelected();
-
-                    }
-                }
-            });
-
 
         timer.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
@@ -179,14 +164,32 @@ public class Fr extends JFrame
                         }
                     }else if(alarmButton.getIcon()==alarmIcon){
                         if(sh.jarvis.alarmProcess!=null&&sh.jarvis.alarmProcess.isAlive()){
-sh.jarvis.alarmProcess.destroy();
-}else
-                        showOrHideNewAlarm();
+                            sh.jarvis.alarmProcess.destroy();
+                        }else
+                            showOrHideNewAlarm();
                     }
 
                 }
             });
+        toggle.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    if(toggle!=null)
+                        toggle.setEnabled(false);
+                    if(!toggle.isSelected()){
 
+                        toggle.setText("Commands Mode");
+                        manualSelected();
+                    }else{
+                        toggle.setText("Output Mode");
+                        manualSelected();
+
+                    }
+
+                    if(toggle!=null)
+                        toggle.setEnabled(true);
+
+                }
+            });
         findMobileButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
 
@@ -217,6 +220,21 @@ sh.jarvis.alarmProcess.destroy();
         this.setSize((int)width,(int)height);
         mainMenu();
         setLocation(0,0);
+        
+         manual.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    manualSelected();
+                }
+            });
+          speechButton.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    if(speechButton.getIcon()==speechIcon){
+                        sh.jarvis.activate();
+                    }else if(speechButton.getIcon()==stop_speechIcon){
+                        sh.jarvis.deActivate();
+                    }
+                }
+            });
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);    
@@ -239,27 +257,31 @@ sh.jarvis.alarmProcess.destroy();
         }else{
             extraInfoPanel.add(addAlarmPanel,BorderLayout.PAGE_END);
         }
-        
 
         extraInfoPanel.repaint();
         extraInfoPanel.revalidate();
     }
 
+    JPanel mainMenuPanel;
     void mainMenu(){
+        shv=null;
+        mainMenuPanel= new JPanel();
+        mainMenuPanel.setLayout(new BorderLayout());
+        isSwitchModeSelected=false;
+        isTimerModeSelected=false;
+        isSheduleModeSelected=false;
+        isOnMainMenu=true;
         JPanel menuPanel= new JPanel();
         extraInfoPanel= new JPanel();
 
         extraInfoPanel.setLayout(new BorderLayout());
-speechButton.setIcon(speechIcon);
-        speechButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    if(speechButton.getIcon()==speechIcon){
-                        sh.jarvis.activate();
-                    }else if(speechButton.getIcon()==stop_speechIcon){
-                        sh.jarvis.deActivate();
-                    }
-                }
-            });
+        if(!sh.jarvis.isSpeechActivate){
+            speechButton.setIcon(speechIcon);
+        }else{
+
+            speechButton.setIcon(stop_speechIcon);
+        }
+      
 
         JPanel lineBeginExtraPanel= new JPanel();
         lineBeginExtraPanel.setLayout(new GridLayout(1,2));
@@ -270,9 +292,10 @@ speechButton.setIcon(speechIcon);
         speechTextLabel.setBorder(BorderFactory.createLineBorder(Color.black));
         speechTextLabel.setBackground(Color.GRAY);
         speechTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
-         speechTextLabel.setVerticalAlignment(SwingConstants.CENTER);
+        speechTextLabel.setVerticalAlignment(SwingConstants.CENTER);
         speechTextLabel.setAutoscrolls(true);
         lineBeginExtraPanel.add(findMobileButton);
+        speechTextLabel.setText( sh.jarvis.lastUsedResponse);
         extraInfoPanel.add(speechTextLabel);
 
         extraInfoPanel.add(speechButton,BorderLayout.LINE_END);
@@ -285,32 +308,44 @@ speechButton.setIcon(speechIcon);
         menuPanel.add(manual);
         menuPanel.add(timer);
         menuPanel.add(auto);
-        add(menuPanel);
-        add(extraInfoPanel,BorderLayout.PAGE_END);
-        manual.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    manualSelected();
-                }
-            });
-
+        mainMenuPanel.add(menuPanel);
+        mainMenuPanel.add(extraInfoPanel,BorderLayout.PAGE_END);
+       
+        add(mainMenuPanel);
+        mainMenuPanel.repaint();
+        mainMenuPanel.revalidate();
         repaint();
         revalidate();
     }
 
+    void goHome(){
+        shv=null;
+        isSwitchModeSelected=false;
+        isTimerModeSelected=false;
+        isSheduleModeSelected=false;
+        isOnMainMenu=true;
+        getContentPane().removeAll();
+        add(mainMenuPanel);
+        mainMenuPanel.repaint();
+        mainMenuPanel.revalidate();
+        repaint();
+        revalidate();
+    }
 
+    JPanel header=new JPanel();
+    JPanel center=new JPanel();
     void manualSelected(){
 
         isTimerModeSelected=false;
         isSheduleModeSelected=false;
+        isOnMainMenu=false;
         getContentPane().removeAll();
         setLayout(new BorderLayout());
-        JPanel header=new JPanel();
-        JPanel center=new JPanel();
-        switcButtons=new <JButton> ArrayList();
+        header.removeAll();
+        center.removeAll();
+
         isSwitchModeSelected=true;
-       
         header.setLayout(new BorderLayout());
-        home.setSize((int)(height/20), (int)(height/20));
         header.add(home,BorderLayout.LINE_START);
         header.add(toggle,BorderLayout.LINE_END);
         add(header,BorderLayout.PAGE_START);
@@ -320,19 +355,23 @@ speechButton.setIcon(speechIcon);
         if(toggle.getText().equals("Output Mode")){
             usingList=sh.outputCommands;
             neededOutputs=sh.getAllOutput();
+
         }else{
             usingList=sh.outputPowerCommands;
             neededOutputs=sh.getAllCommandOutput();
+
         }
-        
+        switcButtons=new JButton[usingList.length];
         String [] outputs=neededOutputs.split("@@@");
 
         center.setLayout(new GridLayout((int)Math.sqrt(usingList.length)+1,(int)Math.sqrt(usingList.length)+1));
+
         for(int i=0;i<usingList.length;i++){
             ArrayList <String> list=usingList[i];
             JButton button = new JButton(list.get(0));
-            switcButtons.add(button);
+            switcButtons[i]=(button);
             center.add(button);
+
             button.addActionListener(new ActionListener(){
                     public void actionPerformed(ActionEvent e){
 
@@ -341,27 +380,27 @@ speechButton.setIcon(speechIcon);
                         }
 
                         String command =button.getText();
-                        new Thread(){public void run(){
-                                try {
-                                    if(toggle.getText().equals("Output Mode")){
-                                        sh.processLedString(command + " " + state);
-                                        sh.sendToAll("switch "+command + " " + state);
-                                        System.out.println("pressed:"+command + " " + state);
-                                        sh.sendTheUpdates(command + " " + state);
-                                    }else{
-                                        sh.processCommandString(command + " " + state);
-                                        sh.sendToAll("switch "+command + " " + state);
-                                        System.out.println("pressed:"+command + " " + state);
-                                        sh.sendTheUpdates(command + " " + state);
-                                    }
 
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                }
-                            }}.start();
+                        try {
+                            if(toggle.getText().equals("Output Mode")){
+                                sh.processLedString(command + " " + state);
+                                sh.sendToAll("switch "+command + " " + state);
+                                System.out.println("pressed:"+command + " " + state);
+                                sh.sendTheUpdates(command + " " + state);
+                            }else{
+                                sh.processCommandString(command + " " + state);
+                                sh.sendToAll("switch "+command + " " + state);
+                                System.out.println("pressed:"+command + " " + state);
+                                sh.sendTheUpdates(command + " " + state);
+                            }
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
 
                     }
                 });
+
             for(int j=0;j<outputs.length;j++){
                 boolean isOn=false;
                 String textNeededFromOutput=null;
@@ -373,6 +412,8 @@ speechButton.setIcon(speechIcon);
                     textNeededFromOutput=outputs[j].substring(0,outputs[j].length()-1-"off".length());
                     isOn=false;
                 }
+                
+
                 if(textNeededFromOutput!=null&&textNeededFromOutput.equals(button.getText())){
                     if(isOn){
                         button.setBackground(Color.GREEN);
@@ -382,15 +423,18 @@ speechButton.setIcon(speechIcon);
                 }
             }
         }
+
         add(center);
-header.repaint();
-header.revalidate();
-center.repaint();
-center.revalidate();
-getContentPane().repaint();
-getContentPane().revalidate();
-        repaint();
-        revalidate();
+        System.gc();
+        center.repaint();
+        center.revalidate();
+        header.repaint();
+        header.revalidate();
+        getContentPane().repaint();
+        getContentPane().revalidate();
+        Fr.this.repaint();
+        Fr.this.revalidate();
+
     }
 
     protected void updateManual(){
@@ -420,10 +464,10 @@ getContentPane().revalidate();
             }
             JButton button=null;
             if(switcButtons!=null){
-                for(int i=0;i<switcButtons.size();i++){
+                for(int i=0;i<switcButtons.length;i++){
 
-                    if(switcButtons.get(i)!=null&&switcButtons.get(i).getText().equals(textNeededFromOutput)){
-                        button=switcButtons.get(i);
+                    if(switcButtons[i]!=null&&switcButtons[i].getText().equals(textNeededFromOutput)){
+                        button=switcButtons[i];
 
                     }
                 }
@@ -455,13 +499,13 @@ getContentPane().revalidate();
         }
 
         if(switcButtons!=null){
-            for(int i=0;i<switcButtons.size();i++){
-                System.out.println(switcButtons.get(i).getText()+":changeState:"+textNeededFromOutput);
-                if(switcButtons.get(i).getText().equals(textNeededFromOutput)){
+            for(int i=0;i<switcButtons.length;i++){
+                System.out.println(switcButtons[i].getText()+":changeState:"+textNeededFromOutput);
+                if(switcButtons[i].getText().equals(textNeededFromOutput)){
                     if(!isOn){
-                        switcButtons.get(i).setBackground(Color.GRAY);
+                        switcButtons[i].setBackground(Color.GRAY);
                     }else{
-                        switcButtons.get(i).setBackground(Color.GREEN);
+                        switcButtons[i].setBackground(Color.GREEN);
                     }
 
                 }
@@ -487,67 +531,242 @@ getContentPane().revalidate();
         private JPanel hourPanel= new JPanel();
         private JPanel minPanel= new JPanel();
         private JPanel secPanel= new JPanel();
-        private JSlider hourSlider,minSlider,secSlider;
+        // private JSlider minSlider,secSlider;
         private JLabel hourLabel,minLabel,secLabel;
         private JLabel hourValues,minValues,secValues;
         public AlarmJPanel(){
-            hourPanel.setLayout(new BoxLayout(hourPanel,BoxLayout.Y_AXIS));
-            minPanel.setLayout(new BoxLayout(minPanel,BoxLayout.Y_AXIS));
-            secPanel.setLayout(new BoxLayout(secPanel,BoxLayout.Y_AXIS));
-            hourSlider= new JSlider(0,23);
-            hourSlider.setValue(0);
-            hourSlider.addChangeListener(new ChangeListener(){
-                    public void stateChanged(ChangeEvent changeEvent) {
-                        Object source = changeEvent.getSource();
-                        JSlider theJSlider = (JSlider) source;
-                        hours=theJSlider.getValue();
+            hourPanel.setLayout(new GridLayout(4,1));
+            minPanel.setLayout(new GridLayout(4,1));
+            secPanel.setLayout(new GridLayout(4,1));
+            JButton hourup= new JButton(upIcon),hourdown= new JButton(downIcon),
+            minup= new JButton(upIcon),mindown= new JButton(downIcon),
+            secup= new JButton(upIcon),secdown= new JButton(downIcon);
 
-                        String hoursString="";
-                        if(hours>9){
-                            hoursString=Integer.toString(hours);
-                        }else{
-                            hoursString="0"+Integer.toString(hours);
-                        }
-                        hourValues.setText(hoursString);
+            hourup.addMouseListener(new MouseAdapter() {
+                    boolean isPressed=false;
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        isPressed=true;
+                        new Thread(){public void run(){
+                                while(isPressed){
+                                    hours=Integer.parseInt(hourValues.getText());
+                                    if(hours>=23){
+                                        hours=0;
+                                    }else{
+                                        hours++;}       
+                                    String hoursString="";
+                                    if(hours>9){
+                                        hoursString=Integer.toString(hours);
+                                    }else{
+                                        hoursString="0"+Integer.toString(hours);
+                                    }
+                                    hourValues.setText(hoursString);
+
+                                    try{
+                                        Thread.sleep(300);
+                                    }catch(Exception ee){} 
+                                } 
+                            }}.start();
+                    }
+
+                    public void mouseReleased(MouseEvent e) {
+                        isPressed=false; 
 
                     }
+
                 });
 
-            minSlider= new JSlider(0,59);
-            minSlider.setValue(0);
-            minSlider.addChangeListener(new ChangeListener(){
-                    public void stateChanged(ChangeEvent changeEvent) {
-                        Object source = changeEvent.getSource();
-                        JSlider theJSlider = (JSlider) source;
-                        min=theJSlider.getValue();
-                        String minString="";
-                        if(min>9){
-                            minString=Integer.toString(min);
-                        }else{
-                            minString="0"+Integer.toString(min);
-                        }
-                        minValues.setText(minString);
+            hourdown.addMouseListener(new MouseAdapter() {
+                  
+                  boolean isPressed=false;
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        isPressed=true;
+                        new Thread(){public void run(){
+                                while(isPressed){
+                                    hours=Integer.parseInt(hourValues.getText());
+                                    if(hours<=0){
+                                        hours=23;
+                                    }else{
+                                        hours--;}       
+                                    String hoursString="";
+                                    if(hours>9){
+                                        hoursString=Integer.toString(hours);
+                                    }else{
+                                        hoursString="0"+Integer.toString(hours);
+                                    }
+                                    hourValues.setText(hoursString);
+
+                                    try{
+                                        Thread.sleep(300);
+                                    }catch(Exception ee){} 
+                                } 
+                            }}.start();
+                    }
+
+                    public void mouseReleased(MouseEvent e) {
+                        isPressed=false; 
+
+                    }});
+                
+               
+            // hourSlider= new JSlider(0,23);
+            //hourSlider.setValue(0);
+            //hourSlider.addChangeListener(new ChangeListener(){
+            //  public void stateChanged(ChangeEvent changeEvent) {
+            //                         Object source = changeEvent.getSource();
+            //                         JSlider theJSlider = (JSlider) source;
+            //                         hours=theJSlider.getValue();
+            // 
+            //                         String hoursString="";
+            //                         if(hours>9){
+            //                             hoursString=Integer.toString(hours);
+            //                         }else{
+            //                             hoursString="0"+Integer.toString(hours);
+            //                         }
+            //                         hourValues.setText(hoursString);
+
+            //    }
+            //  });
+
+            //  minSlider= new JSlider(0,59);
+            //   minSlider.setValue(0);
+            //  minSlider.addChangeListener(new ChangeListener(){
+
+             minup.addMouseListener(new MouseAdapter() {
+                    boolean isPressed=false;
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        isPressed=true;
+                        new Thread(){public void run(){
+                                while(isPressed){
+                                    min=Integer.parseInt(minValues.getText());
+                                    if(min>=59){
+                                        min=0;
+                                    }else{
+                                        min++;}       
+                                    String minString="";
+                                    if(min>9){
+                                        minString=Integer.toString(min);
+                                    }else{
+                                       minString="0"+Integer.toString(min);
+                                    }
+                                    minValues.setText(minString);
+
+                                    try{
+                                        Thread.sleep(200);
+                                    }catch(Exception ee){} 
+                                } 
+                            }}.start();
+                    }
+
+                    public void mouseReleased(MouseEvent e) {
+                        isPressed=false; 
 
                     }
+
                 });
-            secSlider= new JSlider(0,59);
-            secSlider.setValue(0);
-            secSlider.addChangeListener(new ChangeListener(){
-                    public void stateChanged(ChangeEvent changeEvent) {
-                        Object source = changeEvent.getSource();
-                        JSlider theJSlider = (JSlider) source;
-                        sec=theJSlider.getValue();
-                        String secString="";
-                        if(sec>9){
-                            secString=Integer.toString(sec);
-                            System.out.println(sec);
-                        }else{
-                            secString="0"+Integer.toString(sec);
-                        }
-                        secValues.setText(secString);
+
+            mindown.addMouseListener(new MouseAdapter() {
+                  
+                  boolean isPressed=false;
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        isPressed=true;
+                        new Thread(){public void run(){
+                                while(isPressed){
+                                    min=Integer.parseInt(minValues.getText());
+                                    if(min<=0){
+                                        min=59;
+                                    }else{
+                                        min--;}       
+                                    String minString="";
+                                    if(min>9){
+                                        minString=Integer.toString(min);
+                                    }else{
+                                        minString="0"+Integer.toString(min);
+                                    }
+                                    minValues.setText(minString);
+
+                                    try{
+                                        Thread.sleep(200);
+                                    }catch(Exception ee){} 
+                                } 
+                            }}.start();
+                    }
+
+                    public void mouseReleased(MouseEvent e) {
+                        isPressed=false; 
+
+                    }});
+
+              secup.addMouseListener(new MouseAdapter() {
+                    boolean isPressed=false;
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        isPressed=true;
+                        new Thread(){public void run(){
+                                while(isPressed){
+                                    sec=Integer.parseInt(secValues.getText());
+                                    if(sec>=59){
+                                        sec=0;
+                                    }else{
+                                        sec++;}       
+                                    String secString="";
+                                    if(sec>9){
+                                        secString=Integer.toString(sec);
+                                    }else{
+                                       secString="0"+Integer.toString(sec);
+                                    }
+                                    secValues.setText(secString);
+
+                                    try{
+                                        Thread.sleep(200);
+                                    }catch(Exception ee){} 
+                                } 
+                            }}.start();
+                    }
+
+                    public void mouseReleased(MouseEvent e) {
+                        isPressed=false; 
 
                     }
+
                 });
+
+            secdown.addMouseListener(new MouseAdapter() {
+                  
+                  boolean isPressed=false;
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        isPressed=true;
+                        new Thread(){public void run(){
+                                while(isPressed){
+                                    sec=Integer.parseInt(secValues.getText());
+                                    if(sec<=0){
+                                        sec=59;
+                                    }else{
+                                        sec--;}       
+                                    String secString="";
+                                    if(sec>9){
+                                        secString=Integer.toString(sec);
+                                    }else{
+                                        secString="0"+Integer.toString(sec);
+                                    }
+                                    secValues.setText(secString);
+
+                                    try{
+                                        Thread.sleep(300);
+                                    }catch(Exception ee){} 
+                                } 
+                            }}.start();
+                    }
+
+                    public void mouseReleased(MouseEvent e) {
+                        isPressed=false; 
+
+                    }});
+
             hourLabel= new JLabel("Hours:");
             minLabel= new JLabel("Minutes:");
             secLabel= new JLabel("Seconds:");
@@ -555,15 +774,45 @@ getContentPane().revalidate();
             hourValues= new JLabel("00");
             minValues= new JLabel("00");
             secValues= new JLabel("00");
+            hourLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            hourValues.setHorizontalAlignment(SwingConstants.CENTER);
+
             hourPanel.add(hourLabel); 
-            hourPanel.add(hourSlider);
-            hourPanel.add(hourValues);
+            hourPanel.add(hourup); 
+            Font f = hourLabel.getFont();
+            // bold
+            hourLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+            hourLabel.setForeground(Color.BLUE)  ;         
+
+            minLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            minValues.setHorizontalAlignment(SwingConstants.CENTER);
+
+            // bold
+            minLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+
+            secLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            secValues.setHorizontalAlignment(SwingConstants.CENTER);
+
+            // bold
+            secLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+            secPanel.add(secLabel); 
+            secPanel.add(secup); 
+            minLabel.setForeground(Color.BLUE)  ;         
+            secLabel.setForeground(Color.BLUE)  ;         
             minPanel.add(minLabel);
-            minPanel.add(minSlider);
+            minPanel.add(minup);
+
+            hourPanel.add(hourValues);
+            hourPanel.add(hourdown);
+            // minPanel.add(minLabel);
+            //   minPanel.add(minSlider);
             minPanel.add(minValues);
-            secPanel.add(secLabel);
-            secPanel.add(secSlider);
+            minPanel.add(mindown);
+            // secPanel.add(secLabel);
+
+            //  secPanel.add(secSlider);
             secPanel.add(secValues);
+            secPanel.add(secdown);
             // centerPanel.setLayout(new BoxLayout(centerPanel,BoxLayout.Y_AXIS));
             centerPanel.setLayout(new GridLayout(1,3));
             centerPanel.add(hourPanel);
@@ -572,7 +821,6 @@ getContentPane().revalidate();
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createLineBorder(Color.black));
 
-            
             JButton save= new JButton(),cancel=new JButton();
             save.addActionListener(new ActionListener(){
                     public void actionPerformed(ActionEvent e){
@@ -610,8 +858,8 @@ getContentPane().revalidate();
             return hours*60*60+min*60+sec;
         }
     }
-    
-       class MyTextPane extends JTextPane {
+
+    class MyTextPane extends JTextPane {
         public MyTextPane() {
             super();
 
@@ -630,7 +878,6 @@ getContentPane().revalidate();
             // uncomment the following to draw an image
             // Image img = ...;
             // g.drawImage(img, 0, 0, this);
-
 
             super.paintComponent(g);
         }

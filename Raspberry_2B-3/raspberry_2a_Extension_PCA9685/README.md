@@ -14,8 +14,14 @@ In both project, you can send commands from :
 4)wearable-watch
 (if you refactor the SH.java file this would be able to work in any device not only raspberry) you can connect as many raspberry devices as you want but all of them must be conected to the same local network ( the device you will use to send the command must also be on same local network ).
 
-you have to install the extension libraries, you can do it using
-[this](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/raspberry_2a_Extension_PCA9685/Installing%20Kernel%20Support%20) or [this](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/raspberry_2a_Extension_PCA9685/pca9685%20libraries%20installation)
+-you have to install the extension libraries, you can do it using
+[this tutorial](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/raspberry_2a_Extension_PCA9685/Installing%20Kernel%20Support%20) or [this](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/raspberry_2a_Extension_PCA9685/pca9685%20libraries%20installation)
+or on command line type "sudo apt-get install python-smbus" and "sudo apt-get install i2c-tools"  
+
+</br>-you also have to enable i2c for 
+raspberry pi: on command line enter "sudo raspi-config" 
+select "Advanced Options"->"I2C"->"YES"
+Optionally you can enable SPI option too
 
 
 imports libs:

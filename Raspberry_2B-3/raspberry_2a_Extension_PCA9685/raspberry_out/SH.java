@@ -1,7 +1,13 @@
 
 import com.pi4j.gpio.extension.pca.PCA9685GpioProvider;
 import com.pi4j.gpio.extension.pca.PCA9685Pin;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.*;
+import com.pi4j.io.gpio.GpioPinPwmOutput;
+import com.pi4j.io.gpio.GpioPinOutput;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import com.pi4j.io.i2c.I2CBus;
@@ -15,6 +21,7 @@ import java.util.logging.Logger;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -23,115 +30,87 @@ import java.util.Date;
 public class SH {
 
     private DatagramSocket serverSocket;
+    protected DB db;
 
     //// user editable part
     // Pay attention on **
-    private static final int NumberOfBindingCommands = 15;// ** Number of commands you want to bind with one or more outputs.
+    private static final int NumberOfBindingCommands = 6;// ** Number of commands you want to bind with one or more outputs.
 
     private final static int port = 2222; // default port can change it, but you have to change it also in android device,
     //not recomented to change it
-    private final static String deviceName = "home";
+
+    private final static String deviceName = "home";// ** is used for global connection for safety, must put it on android device name field in global connection option.
 
     ///** every startingDeviceID must be unique in every raspberry device contected in local network.
-    public final static int DeviceID = 0; // Example: if we have 4 raspberry devices connected in local network, each one MUST have a unique ID :
+    final static int DeviceID = 0; // Example: if we have 4 raspberry devices connected in local network, each one MUST have a unique ID :
     // the first Ruspberry device DeviceID will be 0, the second device's DeviceID will be 1
     // the third will be 2 the fourth will be 3 ...    (it is very important)
 
     ///** 
     // these are the commannds that each device can receive and react,
     // so every outputPowerCommand must be unique in every device contected in local network.
-// on addCommandsAndPorts function RECOMENDER LOWER CASE TEXT 
+    // on addCommandsAndPorts function RECOMENDER LOWER CASE TEXT 
     private void initializePowerCommands() {
 
         for (int i = 0; i < NumberOfBindingCommands; i++) {
             switch (i) {
                 case 0:
-                    //Number of command you can put in one Device:outputPowerCommands[0]... outputPowerCommands[RelayNumberOfChanels-1] NO MORE THAN 'RelayNumberOfChanels-1'
-                    // else you will have an error mesasge
-                    //ALL commands WITH LATIN LETERS 
-                    addCommandsAndPorts(i // number of command
-                            , new String[]{"kitchen lights", "kitchen light", "koyzina fos", "koyzina fota", "koyzinas fos", "koyzinas fota", "fos koyzina", "fota koyzina", "fos koyzinas", "fota koyzinas"},// command text for reaction, the first one ("kitchen lights") is sending to client as command for switch button, the others commands can be used (send) by client with voice-speech
-                            new Integer[]{2, 4, 7} // on (receiving) command "kitchen lights","kitchen light", "koyzina fos" .....  these outputs will open or close at once
-                    );
-                    break;
+                //Number of command you can put in one Device:outputPowerCommands[0]... outputPowerCommands[RelayNumberOfChanels-1] NO MORE THAN 'RelayNumberOfChanels-1'
+                // else you will have an error mesasge
+                //ALL commands WITH LATIN LETERS 
+                addCommandsAndPorts(i // number of command
+                , new String[]{"Kitchen lights", "kitchen light", "koyzina fos", "koyzina fota", "koyzinas fos", "koyzinas fota", "fos koyzina", "fota koyzina", "fos koyzinas", "fota koyzinas"},// command text for reaction, the first one ("kitchen lights") is sending to client as command for switch button, the others commands can be used (send) by client with voice-speech
+                    new Integer[]{0, 2} // on (receiving) command "kitchen lights","kitchen light", "koyzina fos" .....  these outputs will open or close at once
+                );
+                break;
 
                 case 1:
-                    addCommandsAndPorts(i // command no 1
-                            , new String[]{"room light", "room lights", "bedroom light", "bedroom lights", "domatio fos",// command text for reaction
-                                "domatio fota", "fos domatio", "fota domatio"},
-                            new Integer[]{3, 5, 1});// on command 1 these outputs will open or close at once when the previous commands received
-                    break;
+                addCommandsAndPorts(i // command no 1
+                , new String[]{"rOOm light", "room lights", "bedroom light", "bedroom lights", "domatio fos",// command text for reaction
+                        "domatio fota", "fos domatio", "fota domatio"},
+                    new Integer[]{3});// on command 1 these outputs will open or close at once when the previous commands received
+                break;
 
                 case 2:
-                    //Number of command you can put in one Device:outputPowerCommands[0]... outputPowerCommands[RelayNumberOfChanels-1] NO MORE THAN 'RelayNumberOfChanels-1'
-                    // else you will have an error mesasge
-                    //ALL commands WITH LATIN LETERS 
-                    addCommandsAndPorts(i // number of command 2
-                            , new String[]{"office lights", "office light",},// command text for reaction
-                            new Integer[]{8, 9, 10} // when command "office lights" or "office lights" received, these outputs will open or close at once .
-                    );
-                    break;
+                //Number of command you can put in one Device:outputPowerCommands[0]... outputPowerCommands[RelayNumberOfChanels-1] NO MORE THAN 'RelayNumberOfChanels-1'
+                // else you will have an error mesasge
+                //ALL commands WITH LATIN LETERS 
+                addCommandsAndPorts(i // number of command 2
+                , new String[]{"office lights", "office light",},// command text for reaction
+                    new Integer[]{7, 8} // when command "office lights" or "office lights" received, these outputs will open or close at once .
+                );
+                break;
 
                 case 3:
-                    addCommandsAndPorts(i // command no 3
-                            , new String[]{"tv", "television"},
-                            new Integer[]{11, 12, 13});// on command 3 these outputs will open or close at once when the previous commands received
-                    break;
+                addCommandsAndPorts(i // command no 3
+                , new String[]{"tv", "television"},
+                    new Integer[]{9});// on command 3 these outputs will open or close at once when the previous commands received
+                break;
                 case 4:
-                    addCommandsAndPorts(i // command no 4
-                            , new String[]{"Computer"},
-                            new Integer[]{14, 15});// on command 4 these outputs will open or close at once when the previous commands received
-                    break;
+                addCommandsAndPorts(i // command no 4
+                , new String[]{"computer"},
+                    new Integer[]{12});// on command 4 these outputs will open or close at once when the previous commands received
+                break;
                 case 5:
-                    addCommandsAndPorts(i // command no 5
-                            , new String[]{"air condition", "cooler"},
-                            new Integer[]{16});// on command 5 these outputs will open or close at once when the previous commands received
-                    break;
-                case 6:
-                    addCommandsAndPorts(i // command no 6
-                            , new String[]{"garage"},
-                            new Integer[]{1, 2});// on command 6 these outputs will open or close at once when the previous commands received
-                    break;
-                case 7:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"toilet light", "toilet lights"},
-                            new Integer[]{21, 22});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
-                case 8:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"coffe mashine"},
-                            new Integer[]{17});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
-                case 9:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"spoiler"},
-                            new Integer[]{18});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
-                case 10:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"children bedroom"},
-                            new Integer[]{19});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
-                case 11:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"second toilet"},
-                            new Integer[]{15});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
-                case 12:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"living room"},
-                            new Integer[]{3});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
-                case 13:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"tv lights"},
-                            new Integer[]{4});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
-                case 14:
-                    addCommandsAndPorts(i // command no 7
-                            , new String[]{"guest room"},
-                            new Integer[]{8});// on command 7 these outputs will open or close at once when the previous commands received
-                    break;
+                addCommandsAndPorts(i // command no 4
+                , new String[]{"garder light"},
+                    new Integer[]{11});// on command 4 these outputs will open or close at once when the previous commands received
+                break;
+                //                    case 5:
+                //                     addCommandsAndPorts(i // command no 5
+                //                     ,new String[]{"air condition","cooler" },
+                //                   new Integer[]{16});// on command 5 these outputs will open or close at once when the previous commands received
+                //                     break;
+                //                   case 6:
+                //                     addCommandsAndPorts(i // command no 6
+                //                     ,new String[]{"garage" },
+                //                    new Integer[]{17,18,19});// on command 6 these outputs will open or close at once when the previous commands received
+                //                    break;
+                //                    case 7:
+                //                     addCommandsAndPorts(i // command no 7
+                //                     ,new String[]{"toilet light","toilet lights" },
+                //                    new Integer[]{20,0});// on command 7 these outputs will open or close at once when the previous commands received
+                //      break;
 
             }
         }
@@ -141,29 +120,39 @@ public class SH {
     //// end of user editable part
     protected ArrayList<String>[] outputPowerCommands = new ArrayList[NumberOfBindingCommands];
     private ArrayList<Integer>[] activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
-    private final int raspberryOutputs = 40;// 0 - 16,21-29 plus external 0-15
+    private static final int raspberryOutputs = 40;
+    private static final int raspberryInputs = 0;
     protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
     private ArrayList<GpioPinDigitalInput>[] inputButtons = new ArrayList[raspberryOutputs];
-    private GpioPinDigitalOutput pins[] = new GpioPinDigitalOutput[raspberryOutputs];
+    private GpioPinOutput pins[] = new GpioPinOutput[raspberryOutputs];
     private ArrayList<String> ON, OFF;// = "on", OFF = "off";// word you have to use at the end of the command to activate or deactivate
     private ArrayList<String> ONAtTheStartOfSentence, OFFAtTheStartOfSentence;
-    protected DB db;
-    private ArrayList<InetAddress> addresses = new ArrayList<InetAddress>() {
-
-        @Override
-        public boolean add(InetAddress e) {
-            if (!contains(e)) {
-                return super.add(e);
-            }
-            return false;
-        }
-    };
+    //     private ArrayList<InetAddress> addresses = new ArrayList<InetAddress>() {
+    // 
+    //             @Override
+    //             public boolean add(InetAddress e) {
+    //                 if (!contains(e)) {
+    //                     return super.add(e);
+    //                 }
+    //                 return false;
+    //             }
+    //         };
+    // 
+    //     private ArrayList<Integer> allPorts = new ArrayList<Integer>() {
+    // 
+    //             @Override
+    //             public boolean add(Integer e) {
+    //                 if (!contains(e)) {
+    //                     return super.add(e);
+    //                 }
+    //                 return false;
+    //             }
+    //         };
     PCA9685GpioProvider provider;
 
     public SH() {
+        //   allPorts.add(port);
 
-        initArrays();
-        initStates();
         BigDecimal frequency = new BigDecimal("48.828");
         // Correction factor: actualFreq / targetFreq
         // e.g. measured actual frequency is: 51.69 Hz
@@ -171,22 +160,31 @@ public class SH {
         // --> To measure actual frequency set frequency without correction factor(or set to 1)
         BigDecimal frequencyCorrectionFactor = new BigDecimal("1.0578");
         // Create custom PCA9685 GPIO provider
+        I2CBus bus;
         try {
-            I2CBus bus = I2CFactory.getInstance(I2CBus.BUS_1);
+            bus = I2CFactory.getInstance(I2CBus.BUS_1);
+
             provider = new PCA9685GpioProvider(bus, 0x40, frequency, frequencyCorrectionFactor);
-        } catch (Exception ex) {
+
+        } catch (I2CFactory.UnsupportedBusNumberException ex) {
+            Logger.getLogger(SH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(SH.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        initArrays();
+        initStates();
+
         initializeOutputCommands();
         initializePowerCommands();
         initGpioPinDigitalOutputs();
+        initInputListeners(); // remove comment if you have input plug in
         db = new DB(this);
         new SheduleThread().start();
-        //   initInputListeners(); // remove comment if you have input plug in
     }
 
     private void initArrays() {
-
+        //outputPowerCommands = new ArrayList[NumberOfBindingCommands];
         for (int i = 0; i < NumberOfBindingCommands; i++) {
             outputPowerCommands[i] = new ArrayList<String>();
 
@@ -197,7 +195,7 @@ public class SH {
     // add commands text for reaction and the ports that want to react 
     private void addCommandsAndPorts(int number, String[] reactOnCommands, Integer[] ports) {
         for (int i = 0; i < reactOnCommands.length; i++) {
-            outputPowerCommands[number].add(reactOnCommands[i].toLowerCase());
+            outputPowerCommands[number].add(reactOnCommands[i]);
         }
         for (int i = 0; i < ports.length; i++) {
             activatePortOnCommand[number].add(ports[i]);
@@ -225,7 +223,6 @@ public class SH {
     // Example send command "kitchen light" and "on" or "off" to activate or deactivate the device in output 0. 
     //You can modify your commands.
     private void initializeOutputCommands() {
-
         for (int i = 0; i < outputCommands.length; i++) {
             outputCommands[i] = new ArrayList<String>();
             outputCommands[i].add(DeviceID + " output " + (i));
@@ -237,254 +234,177 @@ public class SH {
         GpioController gpio = GpioFactory.getInstance();
         for (int i = 0; i < pins.length; i++) {
 
-            GpioPinDigitalOutput pin = null;
+            GpioPinOutput pin = null;
             switch (i) {
                 case 0:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_00, "Pulse 00");
+                break;
                 case 1:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_01, "Pulse 00");
+                break;
                 case 2:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_02, "Pulse 00");
+                break;
                 case 3:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_03, "Pulse 00");
+                break;
                 case 4:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_04, "Pulse 00");
+                break;
                 case 5:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_05, "Pulse 00");
+                break;
                 case 6:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_06, "Pulse 00");
+                break;
                 case 7:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                //case 8:
-               //     pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                //    break;
-              //  case 9:
-                 //   pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-              //      break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_07, "Pulse 00");
+                break;
                 case 8:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_08, "Pulse 00");
+                break;
                 case 9:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_11, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_09, "Pulse 00");
+                break;
                 case 10:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_10, "Pulse 00");
+                break;
                 case 11:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_11, "Pulse 00");
+                break;
                 case 12:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin =   gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_12, "Pulse 00");
+                break;
                 case 13:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_15, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 14:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_16, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 15:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_21, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 16:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_22, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 17:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 18:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 19:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_25, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 20:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 21:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 22:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 23:
-                    pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                pin = gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_13, "Pulse 01");
 
-                case 24:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_00, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 25:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_01, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 26:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_02, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 27:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_03, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 28:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_04, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 29:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_05, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 30:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_06, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 31:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_07, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 32:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_08, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 33:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_09, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 34:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_10, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 35:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_11, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 36:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_12, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 37:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_13, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 38:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_14, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
-                case 39:
-                    pin = gpio.provisionDigitalOutputPin( PCA9685Pin.PWM_15, "Pulse " + (26 - i), com.pi4j.io.gpio.PinState.LOW);
-                    break;
+                break;
+                case 14:
+                // pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
+                pin =  gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_14, "Pulse 02");
+
+                break;
+                case 15:
+                pin =  gpio.provisionPwmOutputPin(provider, PCA9685Pin.PWM_15, "Pulse 03");
+
+                break;
+                case 16:
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
+                break;
+                case 17:
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
+                break;
+                case 18:
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
+                break;
+                case 19:
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
+                break;
+                case 20:
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 21:// commands for input no 1
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 22://commands for input no 2
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 23:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 24:// commands for input no 3
+                //myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_10, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 25:// commands for input no 3
+                //myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_09, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                              myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_11, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 26:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_12, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 27:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_13, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 28:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_14, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 29:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_15, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 30:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_16, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 31:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_21, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 32:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_22, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 33:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_23, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 34:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_24, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 35:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_25, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 36:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_26, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 37:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_27, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 38:// commands for input no 3
+                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_28, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+                case 39:// commands for input no 3
+              myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_29, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                break;
+            }
+            pins[i] = pin;
+            if(pin.getName().startsWith("PinLED")){
+
+
+
+                System.out.println("GpioPinDigitalOutput installed   No "+i+"  "+pin.getName());
+                GpioPinDigitalOutput ppp=(GpioPinDigitalOutput)pin;
+                ppp.low();
+
+            } else  if(pin.getName().startsWith("Pulse")){
+                GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
+                System.out.println("GpioPinPwmOutput installed   No "+i);
+                provider.setAlwaysOn(ppp.getPin());
+                int []iii= provider.getPwmOnOffValues(ppp.getPin());           
+                System.out.println(" ON  0="+iii[0]+"  1="+iii[1]);
+                
+                provider.setAlwaysOff(ppp.getPin());
+                iii= provider.getPwmOnOffValues(ppp.getPin());                                  
+                System.out.println(" OFF  0="+iii[0]+"  1="+iii[1]);
+
 
             }
-            pin.low();
-            pins[i] = pin;
 
         }
-        gpio.shutdown();
+        //  gpio.shutdown();
     }
 
-//    private void initInputListeners() {
-////    GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02,             // PIN NUMBER
-////                                                                     "MyButton",                   // PIN FRIENDLY NAME (optional)
-////            
-//       GpioController  gpio = GpioFactory.getInstance();
-//        for (int i = 0; i <= 20; i++) {
-//            GpioPinDigitalInput myButton = null;
-//            switch (i) {
-//                case 0:
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, "MyButton" + i);
-//                    break;
-//                case 1:// commands for input no 1
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_01, "MyButton" + i);
-//
-//                    break;
-//                case 2://commands for input no 2
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "MyButton" + i);
-//
-//                    break;
-//                case 3:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "MyButton" + i);
-//
-//                    break;
-//                case 4:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, "MyButton" + i);
-//
-//                    break;
-//                case 5:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, "MyButton" + i);
-//
-//                    break;
-//                case 6:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, "MyButton" + i);
-//
-//                    break;
-//                case 7:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "MyButton" + i);
-//
-//                    break;
-//                case 8:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, "MyButton" + i);
-//
-//                    break;
-//                case 9:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_09, "MyButton" + i);
-//
-//                    break;
-//                case 10:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_10, "MyButton" + i);
-//
-//                    break;
-//                case 11:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_11, "MyButton" + i);
-//
-//                    break;
-//                case 12:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_12, "MyButton" + i);
-//
-//                    break;
-//                case 13:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_13, "MyButton" + i);
-//
-//                    break;
-//                case 14:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_14, "MyButton" + i);
-//
-//                    break;
-//                case 15:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_15, "MyButton" + i);
-//
-//                    break;
-//                case 16:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_16, "MyButton" + i);
-//
-//                    break;
-//                case 17:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_17, "MyButton" + i);
-//
-//                    break;
-//                case 18:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_18, "MyButton" + i);
-//
-//                    break;
-//                case 19:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_19, "MyButton" + i);
-//
-//                    break;
-//                case 20:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_20, "MyButton" + i);
-//
-//                    break;
-//                    
-//                    
-//                    
-//                      case 21:// commands for input no 3
-//                    myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_20, "MyButton" + i);
-//
-//                    break;
-//                    
-//                    
-//                    
-//                    
-//                    
-//                    
-//            }
-//            myButton.addListener(new GpioUsageExampleListener(outputCommands[i].get(0)));
-//myButton.setShutdownOptions(true, com.pi4j.io.gpio.PinState.LOW);
-//        }
-////gpio.shutdown();
-//    }
+    private void initInputListeners() {
+
+        GpioController gpio = GpioFactory.getInstance();
+        for (int i = 0; i < raspberryInputs; i++) {
+            GpioPinDigitalInput myButton = null;
+            switch (i) {
+                
+
+            }
+            myButton.addListener(new GpioUsageExampleListener(i));
+            myButton.setShutdownOptions(true, com.pi4j.io.gpio.PinState.LOW);
+        }
+        //    gpio.shutdown();
+    }
+
     private void initStates() {
         ON = new ArrayList<String>();
         OFF = new ArrayList<String>();
@@ -598,8 +518,8 @@ public class SH {
             ////                System.out.println("send " + sentence);
             //            }
             if (sentence.equalsIgnoreCase("chooseSpeechFunction") || sentence.equalsIgnoreCase("chooseSwitchFunction")
-                    || sentence.equalsIgnoreCase("chooseSheduleFunction") || sentence.equalsIgnoreCase("chooseAutomationFunction")
-                    || sentence.equalsIgnoreCase("chooseTimerFunction")) {// used when connect for first time and send ok back, when the android receive the ok open to next view
+            || sentence.equalsIgnoreCase("chooseSheduleFunction") || sentence.equalsIgnoreCase("chooseAutomationFunction")
+            || sentence.equalsIgnoreCase("chooseTimerFunction")) {// used when connect for first time and send ok back, when the android receive the ok open to next view
                 sendData(sentence, receivePacket.getAddress(), receivePacket.getPort());
                 final String sent = sentence;
                 new Thread() {
@@ -754,7 +674,7 @@ public class SH {
                 }
                 String timeInSeconds = list[3].substring(DB.SENDING_TIME.length());
                 System.out.println("TIMER : device_id = " + device_id + " , timeStamp= " + timeStamp + " , command_text= "
-                        + command_text + " , timeInSeconds= " + timeInSeconds);
+                    + command_text + " , timeInSeconds= " + timeInSeconds);
                 sendData("newTimerOK", receivePacket.getAddress(), receivePacket.getPort());
                 if (!TimerCountdown.containsTimestamp(Long.parseLong(timeStamp))) {
                     if (!fr.isTimerModeSelected) {
@@ -815,23 +735,20 @@ public class SH {
         String output = new String();
         try {
             //GpioController  gpio = GpioFactory.getInstance();
-            GpioPinDigitalOutput pin = null;
+            GpioPinOutput pin = null;
             String isDoing = new String();
             for (int i = 0; i < outputCommands.length; i++) {
 
                 pin = pins[i];
-
-                if (pin == null) {
-                    initGpioPinDigitalOutputs();
-                    pin = pins[i];
-                }
-
                 if (pin == null) {
                     continue;
                 }
-                if (pin.getState().isHigh()) {
+                boolean isHight=isHight(pin);
+
+                
+                if (isHight) {
                     isDoing = ON.get(0);
-                } else if (pin.getState().isLow()) {
+                } else  {
                     isDoing = OFF.get(0);
                 }
 
@@ -852,12 +769,44 @@ public class SH {
         return output;
     }
 
-    protected String getAllCommandOutput() {
+    boolean isHight(GpioPinOutput pin){
+        boolean isHight=false;
 
+        if(pin.getName().startsWith("PinLED")){
+
+
+
+
+                GpioPinDigitalOutput ppp=(GpioPinDigitalOutput)pin;
+              if(ppp.getState().isHigh()){
+                isHight=true;
+            }
+            } else  if(pin.getName().startsWith("Pulse")){
+                GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
+                int []iii=provider.getPwmOnOffValues(ppp.getPin());
+                System.out.println("iii[0]"+iii[0]+"iii[1]"+iii[1]);
+                if(iii[1]==4096){
+                                isHight=false;
+                }
+                
+                  if(iii[0]==4096){
+                                isHight=true;
+                }
+             
+
+                
+            }
+            
+            System.out.println("isHight = "+isHight);
+       
+        return isHight;
+    }
+
+    protected String getAllCommandOutput() {
         String output = new String();
         try {
             //GpioController  gpio = GpioFactory.getInstance();
-            GpioPinDigitalOutput pin = null;
+            GpioPinOutput pin = null;
 
             for (int i = 0; i < outputPowerCommands.length; i++) {
                 ArrayList<String> isOpenList = new ArrayList<String>();
@@ -865,7 +814,12 @@ public class SH {
                 for (int j = 0; j < activatePortOnCommand[i].size(); j++) {
 
                     String isDoing = new String();
-                    pin = pins[activatePortOnCommand[i].get(j)];
+
+                    int pinID = getRealOutLed(activatePortOnCommand[i].get(j));
+
+                    if (pinID != -1) {
+                        pin = pins[pinID];
+                    }
 
                     if (pin == null) {
                         initGpioPinDigitalOutputs();
@@ -874,9 +828,13 @@ public class SH {
                     if (pin == null) {
                         continue;
                     }
-                    if (pin.getState().isHigh()) {
+
+                  
+
+                    
+                    if (isHight(pin)) {
                         isDoing = ON.get(0);
-                    } else if (pin.getState().isLow()) {
+                    } else  {
                         isDoing = OFF.get(0);
 
                     }
@@ -904,16 +862,54 @@ public class SH {
         return output;
     }
 
+    private int getRealOutLed(int port) {
+        int pinID = port;
+        //         switch(port){
+        //             case 0:
+        //             pinID=0;
+        //             break;
+        //             case 2:
+        //             pinID=1;
+        //             break;
+        //             case 3:
+        //             pinID=2;
+        //             break;
+        //             case 7:
+        //             pinID=3;
+        //             break;
+        //             case 8:
+        //             pinID=4;
+        //             break;
+        //             case 9:
+        //             pinID=5;
+        //             break; case 12:
+        //             pinID=6;
+        //             break;
+        //             case 13:
+        //             pinID=7;
+        //             break;
+        //         }
+
+        return pinID;
+    }
+
     private void sendData(String msg, InetAddress IPAddress, int port) throws IOException {
         byte[] sendData;
         sendData = msg.getBytes();
         DatagramPacket sendPacket
-                = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+        = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+        try {
+            msg = StringUtils.stripAccents(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         serverSocket.send(sendPacket);
     }
 
     protected void processCommandString(String input) {
         String isDoing = "off";
+        System.out.println(input);
+        boolean found = false;
 
         for (int i = 0; i < outputPowerCommands.length; i++) {
 
@@ -936,26 +932,38 @@ public class SH {
                 if (input.startsWith(outputPowerCommands[i].get(j))) {
 
                     if (ON.contains(isDoing)) {
-                        System.out.println("found command " + outputPowerCommands[i].get(j) + " on" + ", these ports will open: " + activatePortOnCommand[i]);
+                        // System.out.println("found command " + outputPowerCommands[i].get(j) + " on" + ", these ports will open: " + activatePortOnCommand[i]);
                         for (int k = 0; k < activatePortOnCommand[i].size(); k++) {
                             ToggleLedNo(activatePortOnCommand[i].get(k), ON.get(0));
                         }
                     } else if (OFF.contains(isDoing)) {
-                        System.out.println("found command " + outputPowerCommands[i].get(j) + " off" + ", these ports will close: " + activatePortOnCommand[i]);
+                        // System.out.println("found command " + outputPowerCommands[i].get(j) + " off" + ", these ports will close: " + activatePortOnCommand[i]);
                         for (int k = 0; k < activatePortOnCommand[i].size(); k++) {
                             ToggleLedNo(activatePortOnCommand[i].get(k), OFF.get(0));
                         }
+
                     }
+
                 }
 
             }
+
         }
     }
 
     private void ToggleLedNo(int number, String state) {
+        ToggleLedNo(number, state, true);
+    }
+
+    private void ToggleLedNo(int number, String state, boolean isFromInput) {
         // GpioController  gpio = GpioFactory.getInstance();
-        GpioPinDigitalOutput pin = null;
-        pin = pins[number];
+        GpioPinOutput pin = null;
+
+        int portOut = number;
+        if (isFromInput) {
+            portOut = getRealOutLed(number);
+        }
+        pin = pins[portOut];
 
         if (pin == null) {
             initGpioPinDigitalOutputs();
@@ -964,22 +972,48 @@ public class SH {
         if (pin == null) {
             return;
         }
+
+                
+                
+        
         if (state.equalsIgnoreCase(ON.get(0))) {
-            pin.high();
-        } else if (state.equalsIgnoreCase(OFF.get(0))) {
-            pin.low();
+
+            if(pin.getName().startsWith("PinLED")){
+                GpioPinDigitalOutput ppp=(GpioPinDigitalOutput)pin;
+                              ppp.high();
+
+            } else  if(pin.getName().startsWith("Pulse")){
+                GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
+                provider.setAlwaysOn(ppp.getPin());
+            }
+            
+           }else if (state.equalsIgnoreCase(OFF.get(0))) {
+
+            if(pin.getName().startsWith("PinLED")){
+                GpioPinDigitalOutput ppp=(GpioPinDigitalOutput)pin;
+                              ppp.low();
+
+            } else  if(pin.getName().startsWith("Pulse")){
+                GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
+                provider.setAlwaysOff(ppp.getPin());
+            }
         }
-        //  gpio.shutdown();
+
+        //           String usingString=outputPowerCommands[i].get(j)+""+isDoing;
+        //      
+        //         if(fr!=null)
+        //         fr.changeState(usingString);
         if (fr.isSwitchModeSelected) {
             fr.updateManual();
         }
+
     }
 
     protected boolean processLedString(String input) {
         // get a handle to the GPIO controller
         // GpioController  gpio = GpioFactory.getInstance();
         boolean found = false;
-        GpioPinDigitalOutput pin;
+        GpioPinOutput pin;
         String isDoing = "off"; // creating the pin with parameter PinState.HIGH
         // will instantly power up the pin
         for (int i = 0; i < outputCommands.length; i++) {
@@ -1008,9 +1042,24 @@ public class SH {
                     pin = pins[i];
                     isDoing = input.replace(outputCommands[i].get(j), "").replaceAll(" ", "");
                     if (ON.contains(isDoing)) {
-                        pin.high();
+
+                        if(pin.getName().startsWith("PinLED")){
+                GpioPinDigitalOutput ppp=(GpioPinDigitalOutput)pin;
+                              ppp.high();
+
+            } else  if(pin.getName().startsWith("Pulse")){
+                GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
+                provider.setAlwaysOn(ppp.getPin());
+            }
                     } else if (OFF.contains(isDoing)) {
-                        pin.low();
+                          if(pin.getName().startsWith("PinLED")){
+                GpioPinDigitalOutput ppp=(GpioPinDigitalOutput)pin;
+                              ppp.low();
+
+            } else  if(pin.getName().startsWith("Pulse")){
+                GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
+                provider.setAlwaysOff(ppp.getPin());
+            }
                     }
                     if (fr.isSwitchModeSelected) {
                         fr.updateManual();
@@ -1022,24 +1071,24 @@ public class SH {
             }
         }
 
-//        pin.high();
-//        System.out.println("light is: ON");
-//
-//        // wait 2 seconds
-//        Thread.sleep(2000);
-//
-//        // turn off GPIO 1
-//        pin.low();
-//        System.out.println("light is: OFF");
-//
-//        // wait 1 second
-//        Thread.sleep(1000);
-//
-//        // turn on GPIO 1 for 1 second and then off
-//        System.out.println("light is: ON for 1 second");
-//        pin.pulse(1000, true);
-//
-//        // release the GPIO controller resources
+        //        pin.high();
+        //        System.out.println("light is: ON");
+        //
+        //        // wait 2 seconds
+        //        Thread.sleep(2000);
+        //
+        //        // turn off GPIO 1
+        //        pin.low();
+        //        System.out.println("light is: OFF");
+        //
+        //        // wait 1 second
+        //        Thread.sleep(1000);
+        //
+        //        // turn on GPIO 1 for 1 second and then off
+        //        System.out.println("light is: ON for 1 second");
+        //        pin.pulse(1000, true);
+        //
+        //        // release the GPIO controller resources
         //   gpio.shutdown();
         return found;
     }
@@ -1049,43 +1098,72 @@ public class SH {
     public static void main(String args[]) throws Exception {
         SH shs = new SH();
         fr = new Fr(shs);
-        jarvis = new Jarvis(shs);
         shs.start();
+        try {
+            jarvis = new Jarvis(shs);
+            // jarvis.run();
+
+        } catch (Exception e) {
+        }
     }
 
     public class GpioUsageExampleListener implements GpioPinListenerDigital {
 
+        String state = null;
         String command = null;
+        int id = -1;
 
-        public GpioUsageExampleListener(String command) {
-            this.command = command;
+        public GpioUsageExampleListener(int id) {
+            System.out.println(" id " + id);
+            this.id = id;
+            this.command = outputCommands[id].get(0);
         }
 
         @Override
         public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-
+            System.out.println("handleGpioPinDigitalStateChangeEvent:::::: " + id);
             // display pin state on console
-            String state = null;
-            if (event.getState() == PinState.HIGH) {
-                state = "on";
-            } else if (event.getState() == PinState.LOW) {
-                state = "off";
-            } else {
-                System.out.println("problem state = " + state);
-                return;
+            state = null;
+            boolean isHigh=isHight(pins[id]);
+            if (isHigh) {
+                state = OFF.get(0);
+            } else{
+                state = ON.get(0);
             }
-            for (int i = 0; i < addresses.size(); i++) {
-                try {
-                    sendData(command + " " + state, addresses.get(i), port);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
+            //else {
+            //  System.out.println("problem state = " + state);
+            //return;
+            //}
 
+            ToggleLedNo(id, state, false);
+            new Thread() {
+                public void run() {
+                    try {
+
+                        sendToAll(command + " " + state);
+                        System.out.println(command + " GpioPinListenerDigital " + state);
+                        sendTheUpdates(command + " " + state);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }.start();
+
+            //System.out.println( addresses.get(i)+" "+port+"     "+ receivePacket.getAddress()+ " "+receivePacket.getPort()   );
+            //             
+            //             for (int i = 0; i < addresses.size(); i++) {
+            //                 try {
+            //                     sendData(command + " " + state, addresses.get(i), port);
+            //                                 System.out.println(command + " " + state);
+            //                 } catch (IOException ex) {
+            //                     ex.printStackTrace();
+            //                 }
+            //             }
         }
     }
 
     public void sendToAll(final String message) {
+
         new Thread() {
             public void run() {
                 try {
@@ -1301,7 +1379,7 @@ public class SH {
         //if(outputPowerCommands.contains(shCm)){
 
         for (int j = 0; j < outputPowerCommands.length; j++) {
-            System.out.println("shCm=" + shCm + "  vs" + outputPowerCommands[j].get(0));
+
             if (outputPowerCommands[j].get(0).equals(shCm)) {
                 for (int h = 0; h < activatePortOnCommand[j].size(); h++) {
                     //
@@ -1310,7 +1388,7 @@ public class SH {
 
                         if (pins[p].getPin().getAddress() == activatePortOnCommand[j].get(h)) {
 
-                            int sendid = (p);
+                            int sendid = getRealOutLed(p);
                             System.out.println("switch " + outputCommands[p].get(0) + " " + mode);
                             //    System.out.println("switch "+DeviceID+ " output "+sendid+" "+mode);
                             // sendToAll("switch "+DeviceID+ " output "+sendid+" "+mode);
@@ -1338,7 +1416,7 @@ public class SH {
                                 for (int kk = 0; kk < activatePortOnCommand[k].size(); kk++) {
                                     //  System.out.println("j= "+j+"  k= "+k+" kk= "+kk+"  "+activatePortOnCommand[k].get(kk)+"   update 2 switch "+getPinFromOutput(activatePortOnCommand[k].get(kk)).isHigh());
                                     if (!activatePortOnCommand[j].contains(activatePortOnCommand[k].get(kk))) {
-                                        if (!getPinFromOutput(activatePortOnCommand[k].get(kk)).isHigh()) {
+                                        if (!isHight(getPinFromOutput(activatePortOnCommand[k].get(kk)))) {
                                             isActive = false;
                                         }
                                     }
@@ -1361,6 +1439,7 @@ public class SH {
             //System.out.println(outputCommands[i]+"  "+(shCm) );
             if (outputCommands[i].get(0).equals(shCm)) {
                 //   System.out.println("outputCommands[i].equals(shCm) ");
+
                 boolean isHight;
                 if (mode.equals(ON.get(0))) {
                     isHight = true;
@@ -1378,7 +1457,7 @@ public class SH {
                             //   System.out.println(activatePortOnCommand[j]+" k= "+k+"  j= "+j+" i= "+i+"  "+activatePortOnCommand[j].get(k)+"  "+
                             //   Boolean.toString(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight));
                             if (pinAddress != activatePortOnCommand[j].get(k)) {
-                                if (getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh() != isHight) {
+                                if (isHight(getPinFromOutput(activatePortOnCommand[j].get(k))) != isHight) {
                                     isActive = false;
                                     break;
                                 }
@@ -1393,7 +1472,7 @@ public class SH {
                                 //   Boolean.toString(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight));
                                 if (isHight) {
                                     if (pinAddress != activatePortOnCommand[j].get(k)) {
-                                        if (getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh() != true) {
+                                        if (isHight(getPinFromOutput(activatePortOnCommand[j].get(k))) != true) {
                                             isActive = false;
                                             break;
                                         }
@@ -1402,20 +1481,20 @@ public class SH {
                             }
                         }
 
-//                         if(!isActive){
-//                             isActive=true;
-//                         for(int k=0;k<activatePortOnCommand[j].size();k++){
-// 
-//                             //   System.out.println(activatePortOnCommand[j]+" k= "+k+"  j= "+j+" i= "+i+"  "+activatePortOnCommand[j].get(k)+"  "+
-//                             //   Boolean.toString(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight));
-// 
-//                             if(pinAddress!=activatePortOnCommand[j].get(k))
-//                                 if(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight){
-//                                     isActive=false;
-//                                     break;
-//                                 }
-//                         }
-//                         }
+                        //                         if(!isActive){
+                        //                             isActive=true;
+                        //                         for(int k=0;k<activatePortOnCommand[j].size();k++){
+                        // 
+                        //                             //   System.out.println(activatePortOnCommand[j]+" k= "+k+"  j= "+j+" i= "+i+"  "+activatePortOnCommand[j].get(k)+"  "+
+                        //                             //   Boolean.toString(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight));
+                        // 
+                        //                             if(pinAddress!=activatePortOnCommand[j].get(k))
+                        //                                 if(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight){
+                        //                                     isActive=false;
+                        //                                     break;
+                        //                                 }
+                        //                         }
+                        //                         }
                         if (isActive) {
                             System.out.println("switch " + outputPowerCommands[j].get(0) + " " + mode);
                             sendToAll("switch " + outputPowerCommands[j].get(0) + " " + mode);
@@ -1451,8 +1530,8 @@ public class SH {
         }
     }
 
-    private GpioPinDigitalOutput getPinFromOutput(int output) {
-        GpioPinDigitalOutput p = null;
+    private GpioPinOutput getPinFromOutput(int output) {
+        GpioPinOutput p = null;
         for (int i = 0; i < pins.length; i++) {
 
             if (pins[i].getPin().getAddress() == output) {
@@ -1510,21 +1589,21 @@ public class SH {
 
             ResetThread thread = new ResetThread(objects) {
 
-                public void run() {
-                    System.out.println("added =" + objects[0].toString() + "  port=" + objects[1] + "  USER ID=" + objects[2]);
-                    while (remaining > 0 && isRunning) {
-                        try {
-                            Thread.sleep(sleepingtime);
-                        } catch (Exception e) {
-                        }
-                        remaining -= sleepingtime;
+                    public void run() {
+                        System.out.println("added =" + objects[0].toString() + "  port=" + objects[1] + "  USER ID=" + objects[2]);
+                        while (remaining > 0 && isRunning) {
+                            try {
+                                Thread.sleep(sleepingtime);
+                            } catch (Exception e) {
+                            }
+                            remaining -= sleepingtime;
 
+                        }
+                        sendingTo.remove(objects);
+                        resetSendingTo.remove(this);
+                        System.out.println("removed =" + objects[0].toString() + "  port=" + objects[1]);
                     }
-                    sendingTo.remove(objects);
-                    resetSendingTo.remove(this);
-                    System.out.println("removed =" + objects[0].toString() + "  port=" + objects[1]);
-                }
-            };
+                };
             thread.start();
             resetSendingTo.add(thread);
         }
@@ -1535,7 +1614,7 @@ public class SH {
     private class ResetThread extends Thread {
 
         final int maxTime = 20 * 60 * 1000;
-        int remaining = maxTime, sleepingtime = 30 * 1000;
+        int remaining = maxTime, sleepingtime = 0 * 1000;
         //   ArrayList <Object[]> list;
         boolean isRunning = true;
         Object[] obj;
@@ -1548,5 +1627,4 @@ public class SH {
         //public void run(){}
 
     }
-
 }
