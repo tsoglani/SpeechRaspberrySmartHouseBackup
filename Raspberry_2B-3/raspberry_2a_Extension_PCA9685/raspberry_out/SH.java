@@ -301,66 +301,66 @@ public class SH {
                 pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 20:
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 21:// commands for input no 1
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 22://commands for input no 2
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 23:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 24:// commands for input no 3
                 //myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
-                                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_10, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 25:// commands for input no 3
                 //myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_09, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
-                              myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_11, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                              pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_11,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 26:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_12, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 27:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_13, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 28:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_14, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 29:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_15, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_15, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 30:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_16, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_16,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 31:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_21, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_21,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 32:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_22, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_22,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 33:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_23, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 34:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_24, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 35:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_25, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_25, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 36:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_26, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 37:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_27, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 38:// commands for input no 3
-                myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_28, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+                pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
                 case 39:// commands for input no 3
-              myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_29, com.pi4j.io.gpio.PinPullResistance.PULL_DOWN);
+              pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29,  "PinLED" + i, com.pi4j.io.gpio.PinState.LOW);
                 break;
             }
             pins[i] = pin;
@@ -375,14 +375,9 @@ public class SH {
             } else  if(pin.getName().startsWith("Pulse")){
                 GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
                 System.out.println("GpioPinPwmOutput installed   No "+i);
-                provider.setAlwaysOn(ppp.getPin());
-                int []iii= provider.getPwmOnOffValues(ppp.getPin());           
-                System.out.println(" ON  0="+iii[0]+"  1="+iii[1]);
-                
+               
                 provider.setAlwaysOff(ppp.getPin());
-                iii= provider.getPwmOnOffValues(ppp.getPin());                                  
-                System.out.println(" OFF  0="+iii[0]+"  1="+iii[1]);
-
+             
 
             }
 
@@ -784,7 +779,7 @@ public class SH {
             } else  if(pin.getName().startsWith("Pulse")){
                 GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
                 int []iii=provider.getPwmOnOffValues(ppp.getPin());
-                System.out.println("iii[0]"+iii[0]+"iii[1]"+iii[1]);
+
                 if(iii[1]==4096){
                                 isHight=false;
                 }
@@ -797,7 +792,7 @@ public class SH {
                 
             }
             
-            System.out.println("isHight = "+isHight);
+
        
         return isHight;
     }
@@ -908,7 +903,7 @@ public class SH {
 
     protected void processCommandString(String input) {
         String isDoing = "off";
-        System.out.println(input);
+
         boolean found = false;
 
         for (int i = 0; i < outputPowerCommands.length; i++) {
@@ -1121,7 +1116,7 @@ public class SH {
 
         @Override
         public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-            System.out.println("handleGpioPinDigitalStateChangeEvent:::::: " + id);
+
             // display pin state on console
             state = null;
             boolean isHigh=isHight(pins[id]);

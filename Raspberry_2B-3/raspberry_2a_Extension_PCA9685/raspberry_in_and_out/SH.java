@@ -314,15 +314,9 @@ public class SH {
             } else  if(pin.getName().startsWith("Pulse")){
                 GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
                 System.out.println("GpioPinPwmOutput installed   No "+i);
-                provider.setAlwaysOn(ppp.getPin());
-                int []iii= provider.getPwmOnOffValues(ppp.getPin());           
-                System.out.println(" ON  0="+iii[0]+"  1="+iii[1]);
-                
+              
                 provider.setAlwaysOff(ppp.getPin());
-                iii= provider.getPwmOnOffValues(ppp.getPin());                                  
-                System.out.println(" OFF  0="+iii[0]+"  1="+iii[1]);
-
-
+               
             }
 
         }
@@ -784,7 +778,7 @@ public class SH {
             } else  if(pin.getName().startsWith("Pulse")){
                 GpioPinPwmOutput ppp=(GpioPinPwmOutput)pin;
                 int []iii=provider.getPwmOnOffValues(ppp.getPin());
-                System.out.println("iii[0]"+iii[0]+"iii[1]"+iii[1]);
+
                 if(iii[1]==4096){
                                 isHight=false;
                 }
@@ -797,7 +791,7 @@ public class SH {
                 
             }
             
-            System.out.println("isHight = "+isHight);
+
        
         return isHight;
     }
@@ -908,7 +902,7 @@ public class SH {
 
     protected void processCommandString(String input) {
         String isDoing = "off";
-        System.out.println(input);
+
         boolean found = false;
 
         for (int i = 0; i < outputPowerCommands.length; i++) {
@@ -1121,7 +1115,7 @@ public class SH {
 
         @Override
         public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-            System.out.println("handleGpioPinDigitalStateChangeEvent:::::: " + id);
+
             // display pin state on console
             state = null;
             boolean isHigh=isHight(pins[id]);
