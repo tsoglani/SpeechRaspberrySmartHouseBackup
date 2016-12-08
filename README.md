@@ -21,6 +21,12 @@ After this you will see two Folders, each one contains one Project, the projects
 ***OR<br />
 You can also do it by paste on command line 
 "git clone https://github.com/tsoglani/SpeechRaspberrySmartHouse.git /home/pi/Desktop/SpeechRaspberrySmartHouse"
+<br/>
+install speech function :  
+sudo apt-get install libttspico0 libttspico-utils libttspico-data<br/>
+sudo apt-get install sox<br/>
+sudo apt-get install sox libsox-fmt-all<br/>
+
 
 
 After you download and run the selected project, you would be able to control remotely your raspberry device with the applications below:
