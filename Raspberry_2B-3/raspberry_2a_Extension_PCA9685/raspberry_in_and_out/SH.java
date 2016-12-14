@@ -1119,6 +1119,7 @@ public class SH {
             // display pin state on console
             state = null;
             boolean isHigh=isHight(pins[id]);
+                        System.out.println(" id " + isHigh);
             if (isHigh) {
                 state = OFF.get(0);
             } else{
@@ -1322,14 +1323,16 @@ public class SH {
 
                                             for (int h = 0; h < activatePortOnCommand[j].size(); h++) {
                                                 //
-                                                for (int p = 0; p < pins.length; p++) {
-                                                    System.out.println(p + " pins[p].getPin().getAddress()= " + pins[p].getPin().getAddress());
-                                                    if (pins[p].getPin().getAddress() == activatePortOnCommand[j].get(h)) {
+                                                
+                sendToAll("switch " + DeviceID + " output " + activatePortOnCommand[j].get(h) + " " + mode);
+                                              //  for (int p = 0; p < pins.length; p++) {
+                                                 //   System.out.println(p + " pins[p].getPin().getAddress()= " + pins[p].getPin().getAddress());
+                                               //     if (pins[p].getPin().getAddress() == activatePortOnCommand[j].get(h)) {
 
                                                         // System.out.println(DeviceID+ " switch "+p+" "+mode);
-                                                        sendToAll("switch " + DeviceID + " output " + p + " " + mode);
-                                                    }
-                                                }
+                                                   //     sendToAll("switch " + DeviceID + " output " + p + " " + mode);
+                                                  //  }
+                                               // }
                                                 // System.out.print( activatePortOnCommand[j].get(h)+" ");
                                                 //  System.out.println(h+"switch "+ outputCommands[activatePortOnCommand[j].get(0)]+" "+mode);
                                                 //       System.out.println(h+"switch "+ outputCommands[activatePortOnCommand[h].get(0)]+" "+mode);
@@ -1377,18 +1380,20 @@ public class SH {
             if (outputPowerCommands[j].get(0).equals(shCm)) {
                 for (int h = 0; h < activatePortOnCommand[j].size(); h++) {
                     //
+                    System.out.println("switch " + activatePortOnCommand[j].get(h)  + " " + mode);
 
-                    for (int p = 0; p < pins.length; p++) {
+                            sendToAll("switch "+DeviceID+ " output "+activatePortOnCommand[j].get(h) +" "+mode);
+          //          for (int p = 0; p < pins.length; p++) {
 
-                        if (pins[p].getPin().getAddress() == activatePortOnCommand[j].get(h)) {
+                     //   if (pins[p].getPin().getAddress() == activatePortOnCommand[j].get(h)) {
 
-                            int sendid = getRealOutLed(p);
-                            System.out.println("switch " + outputCommands[p].get(0) + " " + mode);
+                       //     int sendid = getRealOutLed(p);
+                     //       System.out.println("switch " + outputCommands[p].get(0) + " " + mode);
                             //    System.out.println("switch "+DeviceID+ " output "+sendid+" "+mode);
                             // sendToAll("switch "+DeviceID+ " output "+sendid+" "+mode);
-                            sendToAll("switch " + outputCommands[p].get(0) + " " + mode);
-                        }
-                    }
+                      //      sendToAll("switch " + outputCommands[p].get(0) + " " + mode);
+                     //   }
+                  //  }
 
                     // System.out.print( activatePortOnCommand[j].get(h)+" ");
                     //  System.out.println(h+"switch "+ outputCommands[activatePortOnCommand[j].get(0)]+" "+mode);
@@ -1442,7 +1447,7 @@ public class SH {
                 }
 
                 boolean isActive = true;
-                int pinAddress = pins[i].getPin().getAddress();
+                int pinAddress =i; //pins[i].getPin().getAddress();
                 for (int j = 0; j < activatePortOnCommand.length; j++) {
 
                     if (activatePortOnCommand[j].contains(pinAddress)) {
@@ -1525,14 +1530,15 @@ public class SH {
     }
 
     private GpioPinOutput getPinFromOutput(int output) {
-        GpioPinOutput p = null;
-        for (int i = 0; i < pins.length; i++) {
+       GpioPinOutput p = null;
+       // for (int i = 0; i < pins.length; i++) {
 
-            if (pins[i].getPin().getAddress() == output) {
+           // if (pins[i].getPin().getAddress() == output) {
 
-                p = pins[i];
-            }
-        }
+           //     p = pins[i];
+           // }
+       // }
+        p = pins[output];
         return p;
     }
 
