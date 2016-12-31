@@ -15,17 +15,10 @@ After this you will see two Folders, each one contains one Project, the projects
  -SmartHouseRaspberryServerOnlyOutputs: all pins have been used as ouptputs and you have no inputs ( for example: not recommended for light switching). 
 
 
-***NOTE <br />
-- Defauld raspbian browser might not let you download or clone the project from github, if that happened, install firefox browser "apt-get install iceweasel"  <br />
-//// must excecuted after "sudo apt-get update" <br />
-***OR<br />
-You can also do it by paste on command line 
-"git clone https://github.com/tsoglani/SpeechRaspberrySmartHouse.git /home/pi/Desktop/SpeechRaspberrySmartHouse"
+
+
 <br/>
-install speech function :  
-sudo apt-get install libttspico0 libttspico-utils libttspico-data<br/>
-sudo apt-get install sox<br/>
-sudo apt-get install sox libsox-fmt-all<br/>
+[Command Line commands](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Command_Line.md).  <br/>
 
 
 
