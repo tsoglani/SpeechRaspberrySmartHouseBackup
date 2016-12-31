@@ -8,4 +8,4 @@
 8)sudo apt-get install sox libsox-fmt-all (optional)</br>
 9)apt-get install iceweasel (install firefox, defauld raspbian browser might not let you download/clone the project---optional) </br>
 or</br>
- or You can also download it by paste on command line "git clone https://github.com/tsoglani/SpeechRaspberrySmartHouse.git /home/pi/Desktop/SpeechRaspberrySmartHouse"
+ You can also download it by paste on command line "git clone https://github.com/tsoglani/SpeechRaspberrySmartHouse.git /home/pi/Desktop/SpeechRaspberrySmartHouse"
