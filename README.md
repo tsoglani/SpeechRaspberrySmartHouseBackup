@@ -14,11 +14,8 @@ After this you will see two Folders, each one contains one Project, the projects
  -SmartHouseRaspberryServer: the outputs and the inputs have been split in half.
  -SmartHouseRaspberryServerOnlyOutputs: all pins have been used as ouptputs and you have no inputs ( for example: not recommended for light switching). 
 
-
-
-
 <br/>
-[Command Line commands](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Command_Line.md).  <br/>
+You have to install some libraries from command line tool.[Command Line commands](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Command_Line.md).  <br/>
 
 
 
