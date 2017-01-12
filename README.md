@@ -17,7 +17,7 @@ After this you will see two Folders, each one contains one Project, the projects
 <br/>
 You have to install some libraries from command line tool.[Command Line commands](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Command_Line.md).  <br/>
 
-Information for  [static ip](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/LICENSE.txt) to your raspberry device
+Information for  [static ip](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/static_ip.md) to your raspberry device
 
 
 
