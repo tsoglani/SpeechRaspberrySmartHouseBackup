@@ -39,8 +39,7 @@ In every "main" folder there is a read me file with instructions.
 
 - the project must be on Desktop Folder else images will not display
 
-Extra informations
-- problem with sound on raspberry pi -->[on_sound_problems](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/import_audio.txt)
+
 
 Good luck ;)
 
