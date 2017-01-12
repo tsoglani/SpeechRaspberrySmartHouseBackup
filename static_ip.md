@@ -1,6 +1,6 @@
 on command line 
 
-"route -ne" copy default getaway
+"route -ne" copy default getaway<br>
 "cat /etc/resolv.conf" copy all nameservers
 
 "sudo nano /etc/dhcpcd.conf" 
