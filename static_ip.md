@@ -19,7 +19,7 @@ static domain_name_servers=75.75.75.75 75.75.76.76 2001:558:feed::1 2001:558:fee
 
 replace the corent values 
 
-gateway -> routers
+gateway -> routers<br>
 nameservers -> domain_name_mainservers
 
 
