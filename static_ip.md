@@ -23,5 +23,5 @@ gateway -> routers
 nameservers -> domain_name_mainservers
 
 
+ [source](https://www.youtube.com/watch?v=yd2hwce98Aw)
 
-source->https://www.youtube.com/watch?v=yd2hwce98Aw
