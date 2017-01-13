@@ -1,4 +1,6 @@
-1)sudo add-apt-repository ppa:webupd8team/java (optional you might already have it)</br>
+1)sudo apt-get install python-software-properties
+sudo apt-get install software-properties-common
+  sudo add-apt-repository ppa:webupd8team/java (optional you might already have it)</br>
 2)sudo apt-get update </br>
 3) sudo apt-get upgrade </br>
 4)sudo apt-get install oracle-java8-installer(install java 8)</br>
