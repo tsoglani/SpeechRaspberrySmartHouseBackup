@@ -8,6 +8,7 @@
 4)sudo apt-get install oracle-java8-installer(install java 8)</br>
 5)sudo apt-get install oracle-java8-set-default(set java 8 default) </br>
 6)sudo apt-get install libttspico-utils </br>
+  sudo apt-get install libttspico0 libttspico-utils libttspico-data
 7)sudo apt-get install sox (optional)</br>
 8)sudo apt-get install sox libsox-fmt-all (optional)</br>
 9)apt-get install iceweasel (install firefox, defauld raspbian browser might not let you download/clone the project---optional) </br>
