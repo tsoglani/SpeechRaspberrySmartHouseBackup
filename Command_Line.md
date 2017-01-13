@@ -1,4 +1,4 @@
-1)java --version // to see if java is installed, if not enter the follow commands
+1)java --version // to see if java is installed, if not enter the follow commands<br>
   sudo apt-get install python-software-properties</br>
   sudo apt-get install software-properties-common</br>
   sudo apt-get update <br>
