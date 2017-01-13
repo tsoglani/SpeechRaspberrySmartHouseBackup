@@ -17,9 +17,9 @@ In both project, you can send commands from : <br>
 
 imports libs:<br>
 
-- imports all .jar from SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/libs/
+-imports all .jar from SpeechRaspberrySmartHouse/Raspberry_2B-3/raspberry_2a,b_InAndOut_40gpio_pin/libs/
  folder <br>
- -select all pi4j libs from /opt/pi4j/lib<br>
+-select all pi4j libs from /opt/pi4j/lib<br>
  ///on Bluej you can do it by selecteing tools->preferences->Libraries->Add<br>
 - restart bluej<br>
 
