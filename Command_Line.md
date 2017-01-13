@@ -1,5 +1,7 @@
-1)sudo apt-get install python-software-properties</br>
-sudo apt-get install software-properties-common</br>
+1)java --version // to see if java is installed, if not enter the follow commands
+  sudo apt-get install python-software-properties</br>
+  sudo apt-get install software-properties-common</br>
+  sudo apt-get update <br>
   sudo add-apt-repository ppa:webupd8team/java (optional you might already have it)</br>
 2)sudo apt-get update </br>
 3) sudo apt-get upgrade </br>
