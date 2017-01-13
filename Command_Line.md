@@ -11,3 +11,5 @@ sudo apt-get install software-properties-common</br>
 9)apt-get install iceweasel (install firefox, defauld raspbian browser might not let you download/clone the project---optional) </br>
 or</br>
  You can also download it by paste on command line "git clone https://github.com/tsoglani/SpeechRaspberrySmartHouse.git /home/pi/Desktop/SpeechRaspberrySmartHouse"
+ <br>
+ 10)curl -s get.pi4j.com | sudo bash
