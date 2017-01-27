@@ -17,3 +17,6 @@ sudo java -jar /home/pi/Desktop/SmartHouseServer/SmartHouseServer.jar</br>
 </br>
 exit 0</br>
 "
+
+
+if rc.local doesn't run enter on command line "chmod +x /etc/rc.local"
