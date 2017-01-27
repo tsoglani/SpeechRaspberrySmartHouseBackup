@@ -41,8 +41,8 @@ In every "main" folder there is a read me file with instructions.
 
 How to run the application on raspberry startup :<br>
 <br>
-first [Extract jar file](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_1_Version/extract%20jar%20file)  </br>
-then [Run project On Startup](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_1_Version/RunOnStartup.txt)
+first [Extract jar file](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/extract%20jar%20file.md)  </br>
+then [Run project On Startup](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/RunOnStartup.md)
 <br>
 info [Raspberry 3B GPIO's map ](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/20160925_212252.jpg)<br>
 
