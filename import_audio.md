@@ -1,6 +1,9 @@
 -sudo apt-get install rpi-update</br>
 -sudo BRANCH=next rpi-update</br>
--sudo apt-get install mpg123
+-sudo apt-get install mpg123</br>
+-sudo apt-get install alsa-utils</br>
+-sudo apt-get install lame
+
 
 
 #If you are using external usb sound card:
