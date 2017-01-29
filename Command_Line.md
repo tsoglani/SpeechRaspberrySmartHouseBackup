@@ -1,5 +1,5 @@
 
-1)java --version // to see if java is installed, if not enter the following commands<br>
+1)java -version // to see if java is installed, if not enter the following commands<br>
   sudo add-apt-repository ppa:webupd8team/java (optional you might already have it)</br>
    sudo apt-get update
  sudo apt-get install oracle-java8-installer(install java 8)</br>
