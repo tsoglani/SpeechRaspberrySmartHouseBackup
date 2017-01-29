@@ -9,11 +9,23 @@
 #If you are using external usb sound card:
 
 
-**On Raspberry jessie
+it can be with 2 ways:
+
+
+way no :  1)</br>
+-right click on volum icon (right on top)</br>
+-select USB PnP Sound Device </br>
+-reboot
+</br>
+way no :  2)</br>
+On Raspberry jessie</br>
 
 
 -sudo nano /etc/asound.conf
 and Enter 
+
+
+if is not empty .. clear all and enter this.
 "
 pcm.!default {
 type hw card 1
