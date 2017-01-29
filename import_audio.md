@@ -1,8 +1,7 @@
-//-sudo apt-get install rpi-update</br>
-//-sudo BRANCH=next rpi-update</br>
+
 -sudo apt-get install mpg123</br>
 -sudo apt-get install alsa-utils</br>
-//-sudo apt-get install lame
+-sudo apt-get install lame</br>
 
 
 
