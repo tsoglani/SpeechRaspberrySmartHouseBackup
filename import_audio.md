@@ -1,8 +1,4 @@
 
--sudo apt-get install mpg123</br>
--sudo apt-get install alsa-utils</br>
--sudo apt-get install lame</br>
-
 
 
 #If you are using external usb sound card:
