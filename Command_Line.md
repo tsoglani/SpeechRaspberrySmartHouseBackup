@@ -13,7 +13,7 @@
 or</br>
  You can also download it by paste on command line "git clone https://github.com/tsoglani/SpeechRaspberrySmartHouse.git /home/pi/Desktop/SpeechRaspberrySmartHouse"
  <br>
-6)curl -s get.pi4j.com | sudo bash
+6)curl -s get.pi4j.com | sudo bash</br>
 7)sudo apt-get install mpg123</br>
 8)sudo apt-get install alsa-utils</br>
 9)sudo apt-get install lame</br>
