@@ -5,8 +5,3 @@ lxterminal --command "sudo java -jar /home/pi/Desktop/SmartHouseServer/SmartHous
 
 
 
-
-
-
-
-
