@@ -17,4 +17,6 @@ or</br>
 7)sudo apt-get install mpg123</br>
 8)sudo apt-get install alsa-utils</br>
 9)sudo apt-get install lame</br>
-
+10)sudo apt-get install raspberrypi-ui-mods</br>
+11)sudo apt-get install raspberrypi-net-mods</br>
+12)sudo apt-get install pi4j</br>
