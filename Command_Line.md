@@ -20,3 +20,5 @@ or</br>
 10)sudo apt-get install raspberrypi-ui-mods</br>
 11)sudo apt-get install raspberrypi-net-mods</br>
 12)sudo apt-get install pi4j</br>
+13)sudo apt-get upgrade </br>
+14)sudo apt-get dist-upgrade
