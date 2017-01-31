@@ -20,15 +20,15 @@ exit 0</br>
 
 if rc.local doesn't run enter on command line "chmod +x /etc/rc.local"
 
-if this doesnt work clear 
+if this doesnt work clear </br>
 sudo java -jar /home/pi/Desktop/SmartHouseServer/SmartHouseServer.jar</br>
-from /etc/rc.local
+from /etc/rc.local</br>
 
-**2nd way 
-on command line enter
-nano ~/.config/lxsession/LXDE-pi/autostart
-and add at the end 
-@lxterminal -e "/home/pi/Desktop/SmartHouseServer.sh"
+**2nd way </br>
+on command line enter</br>
+nano ~/.config/lxsession/LXDE-pi/autostart</br>
+and add at the end </br>
+@lxterminal -e "/home/pi/Desktop/SmartHouseServer.sh"</br>
 
 then coppy [SmartHouseServer.sh ](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/SmartHouseServer.sh) on desktop folder as the above command orders
 
