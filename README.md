@@ -46,6 +46,9 @@ then [Run project On Startup](https://github.com/tsoglani/SpeechRaspberrySmartHo
 <br>
 info [Raspberry 3B GPIO's map ](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/20160925_212252.jpg)<br>
 
+In case you face the following problem on jar exstraction : Unsupported major.minor version 52.0 you can download and install : "http://www.rpiblog.com/2014/03/installing-oracle-jdk-8-on-raspberry-pi.html"
+
+
 
 Good luck ;)
 
