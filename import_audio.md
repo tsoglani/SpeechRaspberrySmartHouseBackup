@@ -4,23 +4,14 @@
 #If you are using external usb sound card:
 
 
-it can be with 2 ways:
 
-
-way no :  1)</br>
--right click on volum icon (right on top)</br>
--select USB PnP Sound Device </br>
--reboot
-</br>
-way no :  2)</br>
 On Raspberry jessie</br>
 
-
 -sudo nano /etc/asound.conf
+(with this command you would be able to modify or create the file not exist, both works)
+
+
 and Enter 
-
-
-if is not empty .. clear all and enter this.
 "
 pcm.!default {
 type hw card 1
@@ -33,6 +24,10 @@ type hw card 1
 
 
 "
+
+(might need to copy past it in ~/.asoundrc also)
+
+reboot 
 
 
 **On Raspberry wheezy
