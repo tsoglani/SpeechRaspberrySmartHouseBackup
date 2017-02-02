@@ -30,6 +30,7 @@ nano ~/.config/lxsession/LXDE-pi/autostart</br>
 and add at the end </br>
 @lxterminal -e "/home/pi/Desktop/SmartHouseServer.sh"</br>
 
-then coppy [SmartHouseServer.sh ](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/SmartHouseServer.sh) on desktop folder as the above command orders
-
+enter sudo nano /home/pi/Desktop/SmartHouseServer.sh
+then coppy-paste [SmartHouseServer.sh ](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/SmartHouseServer.sh)
+sudo chmod 777 /home/pi/Desktop/SmartHouseServer.sh
 
