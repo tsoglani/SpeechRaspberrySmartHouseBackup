@@ -21,14 +21,14 @@ or</br>
 11)sudo apt-get install raspberrypi-net-mods</br>
 12)sudo apt-get install pi4j</br>
 13)sudo apt-get upgrade </br>
-14)sudo apt-get dist-upgrade
+14)sudo apt-get dist-upgrade</br>
 
 
-optional: if you want to use PCA9685 gpio expancion 
-sudo raspi-config
-1) Internationalisation Options  ->Change Timezone -> select timezone
-2) Advanced Options  ->SPI -> yes
-2) Advanced Options  ->I2C -> yes
-3)sudo apt-get install i2c-tools
-4)sudo apt-get install python-smbus
+optional: if you want to use PCA9685 gpio expancion </br>
+sudo raspi-config</br>
+1) Internationalisation Options  ->Change Timezone -> select timezone</br>
+2) Advanced Options  ->SPI -> yes</br>
+2) Advanced Options  ->I2C -> yes</br>
+3)sudo apt-get install i2c-tools</br>
+4)sudo apt-get install python-smbus</br>
 
