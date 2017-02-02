@@ -22,3 +22,13 @@ or</br>
 12)sudo apt-get install pi4j</br>
 13)sudo apt-get upgrade </br>
 14)sudo apt-get dist-upgrade
+
+
+optional: if you want to use PCA9685 gpio expancion 
+sudo raspi-config
+1) Internationalisation Options  ->Change Timezone -> select timezone
+2) Advanced Options  ->SPI -> yes
+2) Advanced Options  ->I2C -> yes
+3)sudo apt-get install i2c-tools
+4)sudo apt-get install python-smbus
+
