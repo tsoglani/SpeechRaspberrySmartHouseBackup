@@ -32,3 +32,4 @@ sudo raspi-config</br>
 3)sudo apt-get install i2c-tools</br>
 4)sudo apt-get install python-smbus</br>
 
+important your /home/pi/Desktop/SpeechRaspberrySmartHouse.jar must be able to Execute (right click on file -> Permissions -> Execute -> Anyone)
