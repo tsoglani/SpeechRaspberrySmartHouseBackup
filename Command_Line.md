@@ -32,26 +32,27 @@ sudo raspi-config</br>
 3)sudo apt-get install i2c-tools</br>
 4)sudo apt-get install python-smbus</br>
 
-5)
-sudo nano /etc/modprobe.d/raspi-blacklist.conf
-and change from 
-"blacklist i2c-bcm2708"
-to
-"# blacklist i2c-bcm2708"
- (if its there). 
+5)  Enter on cmd </br>
+sudo nano /etc/modprobe.d/raspi-blacklist.conf</br>
+and change  (if its there) from </br>
+"blacklist i2c-bcm2708"</br>
+to</br>
+"# blacklist i2c-bcm2708"</br>
+ </br>
 
-6) 
-sudo nano /etc/modules 
-
-i2c-dev 
-i2c-bcm2708
-
-
-important your /home/pi/Desktop/SpeechRaspberrySmartHouse.jar must be able to Execute (right click on file -> Permissions -> Execute -> Anyone)
-
-more to do
--[Disabling_the_blank_screen](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Disabling_the_blank_screen)
--[import_audio-microphone_functionality](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/import_audio.md)
--[static ip](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/static_ip.md)
--[Run application on startup](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/RunOnStartup.md)
+6) Enter on cmd </br>
+sudo nano /etc/modules  </br>
+and add (if it is missing) </br>
+" </br>
+i2c-dev  </br>
+i2c-bcm2708  </br>
+" </br>
+ </br>
+important your /home/pi/Desktop/SpeechRaspberrySmartHouse.jar must be able to Execute (right click on file -> Permissions -> Execute -> Anyone) </br>
+ </br>
+more to do </br>
+-[Disabling_the_blank_screen](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Disabling_the_blank_screen) </br>
+-[import_audio-microphone_functionality](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/import_audio.md) </br>
+-[static ip](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/static_ip.md) </br>
+-[Run application on startup](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/RunOnStartup.md) </br>
 
