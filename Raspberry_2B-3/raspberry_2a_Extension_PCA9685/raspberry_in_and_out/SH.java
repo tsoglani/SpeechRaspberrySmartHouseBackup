@@ -1194,8 +1194,7 @@ public class SH {
         int id = -1;
         String curentState = null;
         GpioPinDigitalInput in;
-        int eventsCounterID = 0;
-boolean isHightPrevious =false;
+        boolean isHightPrevious =false;
         public GpioUsageExampleListener(GpioPinDigitalInput in, int id) {
             this.in = in;
             System.out.println(" id " + id);
@@ -1211,7 +1210,6 @@ boolean isHightPrevious =false;
 //            }
 //            isRunning = true;
 
-            final int curentEventID = ++eventsCounterID;
             boolean startState = in.getState().isHigh();
 //            try {
 //                Thread.sleep(300);
@@ -1266,7 +1264,7 @@ boolean isHightPrevious =false;
 
 //            isRunning = false;
             //System.out.println( addresses.get(i)+" "+port+"     "+ receivePacket.getAddress()+ " "+receivePacket.getPort()   );
-            //             
+            //
             //             for (int i = 0; i < addresses.size(); i++) {
             //                 try {
             //                     sendData(command + " " + state, addresses.get(i), port);
@@ -1303,9 +1301,9 @@ boolean isHightPrevious =false;
                     //                                 Thread.sleep(50);
                     //                             }catch(Exception e){}
                     //                             sendData(message, addresses.get(i), allPorts.get(k));
-                    // 
+                    //
                     //                         }
-                    // 
+                    //
                     //     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1336,9 +1334,9 @@ boolean isHightPrevious =false;
                     //                         for (int k = 0; k < allPorts.size(); k++) {
                     //                             if(!addresses.get(i).equals(ia)&&allPorts.get(k)!=port)
                     //                                 sendData(message, addresses.get(i), allPorts.get(k));
-                    // 
+                    //
                     //                         }
-                    // 
+                    //
                     //                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1601,10 +1599,10 @@ boolean isHightPrevious =false;
                         //                         if(!isActive){
                         //                             isActive=true;
                         //                         for(int k=0;k<activatePortOnCommand[j].size();k++){
-                        // 
+                        //
                         //                             //   System.out.println(activatePortOnCommand[j]+" k= "+k+"  j= "+j+" i= "+i+"  "+activatePortOnCommand[j].get(k)+"  "+
                         //                             //   Boolean.toString(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight));
-                        // 
+                        //
                         //                             if(pinAddress!=activatePortOnCommand[j].get(k))
                         //                                 if(getPinFromOutput(activatePortOnCommand[j].get(k)).isHigh()==isHight){
                         //                                     isActive=false;
@@ -1624,22 +1622,22 @@ boolean isHightPrevious =false;
         }
 
         //             for(int j=0;j<outputPowerCommands.length;j++){
-        // 
+        //
         //                 for(int h=0;h<activatePortOnCommand[j].size();h++){
-        //                   
+        //
         //                     boolean isActive=true;
         //                     for(int p=0;p<pins.length;p++){
-        // 
+        //
         //                         if(pins[p].getPin().getAddress()== activatePortOnCommand[j].get(h)){
         //                             if(!pins[p].isHigh()){
         //                                 isActive=false;
         //                             }
-        //                      
+        //
         //                     }
         //                     if(isActive&&pins.length>=1){sendToAll("switch "+outputPowerCommands[j].get(0)+" "+mode);
         //                     }
-        //                
-        // 
+        //
+        //
         //             }
         //         }}
         if (fr.isSwitchModeSelected) {
