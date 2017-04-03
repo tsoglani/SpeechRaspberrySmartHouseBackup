@@ -1,0 +1,5 @@
+extra light 2,,extra lights 2,,extra light two,,extra lights two@@0
+electric shutters kitchen off@@1,2
+electric shutters kitchen on@@3
+balcony 2 light,,balcony 2 lights,,balcony two light,,balcony two lights@@4
+
