@@ -16,6 +16,7 @@ import com.pi4j.io.i2c.I2CFactory;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,23 +35,109 @@ public class SH {
 
     //// user editable part
     // Pay attention on **
-    private static final int NumberOfBindingCommands = 20;// ** Number of commands you want to bind with one or more outputs.
+    private static  int NumberOfBindingCommands = 20;// ** Number of commands you want to bind with one or more outputs.
 
     private final static int port = 2222; // default port can change it, but you have to change it also in android device,
     //not recomented to change it
 
-    private final static String deviceName = "tsoglani";// ** is used for global connection for safety, must put it on android device name field in global connection option.
-
+    private  static String deviceName = "tsoglani";// ** is used for global connection for safety, must put it on android device name field in global connection option.
+private final int maxInputs =20;
     ///** every startingDeviceID must be unique in every raspberry device contected in local network.
     final static int DeviceID = 0; // Example: if we have 4 raspberry devices connected in local network, each one MUST have a unique ID :
     // the first Ruspberry device DeviceID will be 0, the second device's DeviceID will be 1
     // the third will be 2 the fourth will be 3 ...    (it is very important)
 
-    ///** 
+    ///**
     // these are the commannds that each device can receive and react,
     // so every outputPowerCommand must be unique in every device contected in local network.
-    // on addCommandsAndPorts function RECOMENDER LOWER CASE TEXT 
-    private void initializePowerCommands() {
+    // on addCommandsAndPorts function RECOMENDER LOWER CASE TEXT
+
+
+    public static String readUserName(String fileName){
+
+
+        String line=null,output=null;
+        BufferedReader br;
+        try {
+            InputStream fis = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            br = new BufferedReader(isr);
+            while ((line = br.readLine()) != null) {
+                // Deal with the line
+
+                if (line.startsWith("username:")){
+                    output=line.substring("username:".length(),line.length());
+                }else{
+                    continue;
+
+                }
+
+
+
+
+//                System.out.println();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return output;
+
+    }
+    private void initializePowerCommands2(String fileName) {
+        String line;
+        BufferedReader br;
+        try {
+            InputStream fis = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            br = new BufferedReader(isr);
+            int counter =0;
+            while ((line = br.readLine()) != null) {
+                // Deal with the line
+                NumberOfBindingCommands=counter;
+                if (line.replaceAll(" ","").equals("")){
+                    continue;
+                }
+
+                String commandString=line.split("@@")[0];
+                String[] commands=commandString.split(",,");////////////////
+//                for (String s:commands){
+//
+//                    System.out.print(s+",");
+//
+//                }
+
+                String numberListString=line.split("@@")[1];
+                String numbersString[] =numberListString.split(",");
+                Integer[] numbers=new Integer[numbersString.length];////////////////
+//                System.out.println();
+                for (  int i=0;i<numbersString.length;i++){
+                    numbers[i]= Integer.parseInt(numbersString[i].replaceAll(" ",""));
+//                    System.out.println("numbers"+  numbersString[i].replaceAll(" ","")+" ");
+                }
+
+
+                addCommandsAndPorts(counter ,// number of command
+                commands,numbers
+                );
+
+                counter ++;
+
+                if (counter>=maxInputs){
+
+    break;
+}
+//                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+        private void initializePowerCommands() {
 
         for (int i = 0; i < NumberOfBindingCommands; i++) {
             switch (i) {
@@ -214,7 +301,7 @@ public class SH {
     private ArrayList<String> ON, OFF;// = "on", OFF = "off";// word you have to use at the end of the command to activate or deactivate
     private ArrayList<String> ONAtTheStartOfSentence, OFFAtTheStartOfSentence;
     //     private ArrayList<InetAddress> addresses = new ArrayList<InetAddress>() {
-    // 
+    //
     //             @Override
     //             public boolean add(InetAddress e) {
     //                 if (!contains(e)) {
@@ -223,9 +310,9 @@ public class SH {
     //                 return false;
     //             }
     //         };
-    // 
+    //
     //     private ArrayList<Integer> allPorts = new ArrayList<Integer>() {
-    // 
+    //
     //             @Override
     //             public boolean add(Integer e) {
     //                 if (!contains(e)) {
@@ -262,7 +349,11 @@ public class SH {
         initStates();
 
         initializeOutputCommands();
-        initializePowerCommands();
+        initializePowerCommands2("/home/pi/Desktop/SpeechRaspberrySmartHouse/commands.txt");
+        String backupdeviceName=readUserName("/home/pi/Desktop/SpeechRaspberrySmartHouse/deviceName.txt");
+       if (backupdeviceName!=null){
+           deviceName=backupdeviceName;
+       }
         initGpioPinDigitalOutputs();
         initInputListeners(); // remove comment if you have input plug in
         db = new DB(this);
@@ -278,7 +369,7 @@ public class SH {
         }
     }
 
-    // add commands text for reaction and the ports that want to react 
+    // add commands text for reaction and the ports that want to react
     private void addCommandsAndPorts(int number, String[] reactOnCommands, Integer[] ports) {
         for (int i = 0; i < reactOnCommands.length; i++) {
             outputPowerCommands[number].add(reactOnCommands[i]);
@@ -306,7 +397,7 @@ public class SH {
     //ς=s,σ=s,τ=t,υ=y,φ=f,χ=x,ψ=ps
     //in this function you add multi command for each output.
     // these EXACT commands you must send from the Android device (speech or with Switch buttons ) to activate or deactivate the device output
-    // Example send command "kitchen light" and "on" or "off" to activate or deactivate the device in output 0. 
+    // Example send command "kitchen light" and "on" or "off" to activate or deactivate the device in output 0.
     //You can modify your commands.
     private void initializeOutputCommands() {
         for (int i = 0; i < outputCommands.length; i++) {
@@ -576,14 +667,14 @@ public class SH {
                 //                 for (int i = 0; i < addresses.size(); i++) {
                 //                     for (int k = 0; k < allPorts.size(); k++) {
                 //                         try {
-                // 
+                //
                 //                             sendData(sentence, addresses.get(i), allPorts.get(k));
                 //                             //System.out.println( addresses.get(i)+" "+allPorts.get(k)+"     "+ receivePacket.getAddress()+ " "+receivePacket.getPort()   );
                 //                         } catch (IOException ex) {
                 //                             ex.printStackTrace();
                 //                         }
                 //                     }
-                // 
+                //
                 //                }
                 if (!fr.isSwitchModeSelected) {
                     fr.manualSelected();
@@ -790,14 +881,14 @@ public class SH {
                 sendToAll(sentence);
 
             }
-            // 
+            //
             //             if (sentence.startsWith("update_manual_mode")) { // I say than I need all the commands that open ports with each one state ( Example : "kitchen light on" kitchen light is the commands and on or of are the states  )
-            // 
+            //
             //                 String msg = "kouzina fwta on@@@domatio fos on";//getAllOutput();
             //                 if (msg != null && !msg.replaceAll(" ", "").equalsIgnoreCase("")) {
             //                     sendData("update_manual_mode" + msg, receivePacket.getAddress(), receivePacket.getPort());
             //                 }
-            // 
+            //
             //             }
             existAsLed = processLedString(sentence);
             if (!existAsLed) {
@@ -1077,7 +1168,7 @@ public class SH {
         }
 
         //           String usingString=outputPowerCommands[i].get(j)+""+isDoing;
-        //      
+        //
         //         if(fr!=null)
         //         fr.changeState(usingString);
         if (fr.isSwitchModeSelected) {
@@ -1199,6 +1290,7 @@ public class SH {
             this.in = in;
             System.out.println(" id " + id);
             this.id = id;
+            isHightPrevious=in.isHigh();
             this.command = outputCommands[id].get(0);
         }
 
