@@ -8,16 +8,13 @@
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import java.util.Date;
 
-import javax.swing.text.StyledDocument;
-import javax.swing.text.StyleContext;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Style;
 
 public class Fr extends JFrame
 {
@@ -51,12 +48,14 @@ public class Fr extends JFrame
      */
     double width,height;
     private String usinAlarmText;
+    boolean isReadyToShowTime=true;
     public Fr(SH sh)
     {
         this.sh=sh;
         Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
         width=screenSize.getWidth();
         height=screenSize.getHeight();
+        speechTextLabel= new JLabel();
 
     
         //      StyleContext context = new StyleContext();
@@ -74,7 +73,6 @@ public class Fr extends JFrame
         //           speechTextLabel= new JTextPane();
         //       e.printStackTrace();
         //     }
-        speechTextLabel= new JLabel();
 
         //      SimpleAttributeSet attribs = new SimpleAttributeSet();
         //StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
@@ -148,6 +146,7 @@ public class Fr extends JFrame
                 public void actionPerformed(ActionEvent e){
 
                     if(alarmButton.getIcon()==null){ // is already activated
+                        isReadyToShowTime=false;
                         speechTextLabel.setText("Cancel alarm ?");
                         findMobileButton.setIcon(cancelOkIcon) ;
                         alarmButton.setIcon(cancelNot_okIcon);
@@ -156,15 +155,23 @@ public class Fr extends JFrame
                     }else if(alarmButton.getIcon()==cancelNot_okIcon){
                         findMobileButton.setIcon(findMobileIcon) ;
                         speechTextLabel.setText("");
+                        isReadyToShowTime=true;
+
                         alarmButton.setText(usinAlarmText);
-                        if(  sh.jarvis.hasAlarm)
+                        if(  sh.jarvis.hasAlarm) {
                             alarmButton.setIcon(null);
-                        else{
+                            isReadyToShowTime = true;
+
+                        }else{
                             alarmButton.setIcon(alarmIcon);
+                            isReadyToShowTime=true;
+
                         }
                     }else if(alarmButton.getIcon()==alarmIcon){
                         if(sh.jarvis.alarmProcess!=null&&sh.jarvis.alarmProcess.isAlive()){
                             sh.jarvis.alarmProcess.destroy();
+                            isReadyToShowTime=true;
+
                         }else
                             showOrHideNewAlarm();
                     }
@@ -210,6 +217,7 @@ public class Fr extends JFrame
                         alarmButton.setIcon(alarmIcon);
 
                         speechTextLabel.setText("Alarm canceled.");
+                         isReadyToShowTime=true;
                         findMobileButton.setIcon(findMobileIcon) ;
 
                         sh.jarvis.hasAlarm=false;
@@ -230,11 +238,14 @@ public class Fr extends JFrame
                 public void actionPerformed(ActionEvent e){
                     if(speechButton.getIcon()==speechIcon){
                         sh.jarvis.activate();
+
                     }else if(speechButton.getIcon()==stop_speechIcon){
                         sh.jarvis.deActivate();
                     }
                 }
             });
+
+        showTime();
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);    
@@ -262,6 +273,35 @@ public class Fr extends JFrame
         extraInfoPanel.revalidate();
     }
 
+    boolean dotBoolean=true;
+
+    void showTime(){
+        dotBoolean=true;
+    new Thread(){
+
+        @Override
+        public void run() {
+            while(true){
+
+                try {
+                    sleep(1000);
+
+                if (!isOnMainMenu||speechButton==null||speechButton.getIcon()==null
+                        ||speechButton.getIcon()!=speechIcon||!isReadyToShowTime){
+                    continue;
+
+                }
+                if(speechTextLabel==null){
+                    continue;
+                }
+                speechTextLabel.setText(getStringTimeDate());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }.start();
+}
     JPanel mainMenuPanel;
     void mainMenu(){
         shv=null;
@@ -857,6 +897,13 @@ public class Fr extends JFrame
         private int getRemainingTimeToSeconds(){
             return hours*60*60+min*60+sec;
         }
+    }
+
+    private String getStringTimeDate(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        return (dateFormat.format(date));
+
     }
 
     class MyTextPane extends JTextPane {
