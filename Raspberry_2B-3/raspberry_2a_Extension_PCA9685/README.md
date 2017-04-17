@@ -35,10 +35,11 @@ with double comma (,,) the first text splited in comma in is sent to the client'
 after the commands there is a "@@" text, after this you put the output number (you can use multiple outputs using comma "," for example 
 </br>
 
-##"Kitchen light 1,,kitchen light one@@0</br> 
-##Kitchen light 2,,kitchen light two@@1</br> 
-##Kitchen lights@@0,1</br> 
-"
+"</br>
+Kitchen light 1,,kitchen light one@@0</br> 
+Kitchen light 2,,kitchen light two@@1</br> 
+Kitchen lights@@0,1</br> 
+"</br>
  
 ) 
 
