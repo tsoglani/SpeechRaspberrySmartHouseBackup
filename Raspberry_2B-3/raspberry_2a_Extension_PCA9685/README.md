@@ -32,11 +32,11 @@ imports libs for code refactoring: </br>
 -YOU HAVE TO modify ["commands.txt" file](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/commands.txt) on "SpeechRaspberrySmartHouse" folder:</br>
 but you have to be carefull with the syntax,</br>
 with double comma (,,) the first text splited in comma in is sent to the client's device and is used for switching the buttons from the client's device, the other text splited with ",," is used to bind this command with others if you want to use speech funtions.</br>
-after the commands there is a "@@" text, after this you put the output number (you can use multiple outputs using double commas , for example 
+after the commands there is a "@@" text, after this you put the output number (you can use multiple outputs using comma "," for example 
 </br>
 "Kitchen light 1,,kitchen light one@@0</br> 
 Kitchen light 2,,kitchen light two@@1</br> 
-Kitchen lights@@0,,1</br> 
+Kitchen lights@@0,1</br> 
 "
 ) 
 
