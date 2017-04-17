@@ -18,7 +18,7 @@ In both project, you can send commands from : </br>
 Or if you want to see more try to see [this tutorial](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/raspberry_2a_Extension_PCA9685/Installing%20Kernel%20Support%20) or [this](https://github.com/tsoglani/SpeechRaspberrySmartHouse/blob/master/Raspberry_2B-3/raspberry_2a_Extension_PCA9685/pca9685%20libraries%20installation)
 </br>
 
-////comments
+////comments</br>
 ////or on command line type "sudo apt-get install python-smbus" and "sudo apt-get install i2c-tools"  </br>
 ////-you also have to enable i2c for </br>
 ////raspberry pi: on command line enter "sudo raspi-config" </br>
