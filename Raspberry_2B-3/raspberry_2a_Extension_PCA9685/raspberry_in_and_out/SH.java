@@ -35,7 +35,7 @@ public class SH {
 
     //// user editable part
     // Pay attention on **
-    private static  int NumberOfBindingCommands = 20;// ** Number of commands you want to bind with one or more outputs.
+    private int NumberOfBindingCommands = 13;// ** Number of commands you want to bind with one or more outputs.
 
     private final static int port = 2222; // default port can change it, but you have to change it also in android device,
     //not recomented to change it
@@ -51,6 +51,16 @@ private final int maxInputs =20;
     // these are the commannds that each device can receive and react,
     // so every outputPowerCommand must be unique in every device contected in local network.
     // on addCommandsAndPorts function RECOMENDER LOWER CASE TEXT
+
+    protected ArrayList<String>[] outputPowerCommands ;
+    private ArrayList<Integer>[] activatePortOnCommand ;
+    private static final int raspberryOutputs = 20;// 0 - 12 plus external 0-7
+    private static final int raspberryInputs = 20;//13-16,21-29  plus external 8-15
+    protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
+    private ArrayList<GpioPinDigitalInput>[] inputButtons = new ArrayList[raspberryOutputs];
+    private GpioPinOutput pins[] = new GpioPinOutput[raspberryOutputs];
+    private ArrayList<String> ON, OFF;// = "on", OFF = "off";// word you have to use at the end of the command to activate or deactivate
+    private ArrayList<String> ONAtTheStartOfSentence, OFFAtTheStartOfSentence;
 
 
     public static String readUserName(String fileName){
@@ -95,32 +105,31 @@ private final int maxInputs =20;
             int counter =0;
             while ((line = br.readLine()) != null) {
                 // Deal with the line
-                NumberOfBindingCommands=counter;
                 if (line.replaceAll(" ","").equals("")){
-                    continue;
+                    break;
                 }
 
                 String commandString=line.split("@@")[0];
                 String[] commands=commandString.split(",,");////////////////
-//                for (String s:commands){
-//
-//                    System.out.print(s+",");
-//
-//                }
+                for (String s:commands){
+
+                    System.out.print(s+",");
+
+                }
 
                 String numberListString=line.split("@@")[1];
                 String numbersString[] =numberListString.split(",");
                 Integer[] numbers=new Integer[numbersString.length];////////////////
-//                System.out.println();
                 for (  int i=0;i<numbersString.length;i++){
                     numbers[i]= Integer.parseInt(numbersString[i].replaceAll(" ",""));
-//                    System.out.println("numbers"+  numbersString[i].replaceAll(" ","")+" ");
+                    System.out.println("::"+  numbersString[i].replaceAll(" ","")+" ");
                 }
 
 
                 addCommandsAndPorts(counter ,// number of command
                 commands,numbers
                 );
+//                NumberOfBindingCommands=counter;
 
                 counter ++;
 
@@ -134,6 +143,38 @@ private final int maxInputs =20;
             e.printStackTrace();
         }
 
+
+    }
+
+
+
+    private int powerCommandFileLength(String fileName){
+
+
+            String line;
+            int NumberOfBindingCommands=20;
+
+            BufferedReader br;
+            try {
+                InputStream fis = new FileInputStream(fileName);
+                InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+                br = new BufferedReader(isr);
+                int counter =0;
+                while ((line = br.readLine()) != null) {
+                    // Deal with the line
+                    if (line.replaceAll(" ","").equals("")){
+                        break;
+                    }
+                    counter++;
+                    NumberOfBindingCommands=counter;
+
+
+//                System.out.println();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+return (NumberOfBindingCommands);
 
     }
 
@@ -291,15 +332,7 @@ private final int maxInputs =20;
     }
 
     //// end of user editable part
-    protected ArrayList<String>[] outputPowerCommands = new ArrayList[NumberOfBindingCommands];
-    private ArrayList<Integer>[] activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
-    private static final int raspberryOutputs = 20;// 0 - 12 plus external 0-7
-    private static final int raspberryInputs = 20;//13-16,21-29  plus external 8-15
-    protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
-    private ArrayList<GpioPinDigitalInput>[] inputButtons = new ArrayList[raspberryOutputs];
-    private GpioPinOutput pins[] = new GpioPinOutput[raspberryOutputs];
-    private ArrayList<String> ON, OFF;// = "on", OFF = "off";// word you have to use at the end of the command to activate or deactivate
-    private ArrayList<String> ONAtTheStartOfSentence, OFFAtTheStartOfSentence;
+
     //     private ArrayList<InetAddress> addresses = new ArrayList<InetAddress>() {
     //
     //             @Override
@@ -323,8 +356,12 @@ private final int maxInputs =20;
     //         };
     PCA9685GpioProvider provider;
 
+
+    String fileCommandPath="/home/pi/Desktop/SpeechRaspberrySmartHouse/commands.txt";
     public SH() {
         //   allPorts.add(port);
+
+
 
         BigDecimal frequency = new BigDecimal("48.828");
         // Correction factor: actualFreq / targetFreq
@@ -345,12 +382,18 @@ private final int maxInputs =20;
             Logger.getLogger(SH.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        NumberOfBindingCommands= powerCommandFileLength(fileCommandPath);
+        outputPowerCommands = new ArrayList[NumberOfBindingCommands];
+        activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
+
         initArrays();
         initStates();
 
         initializeOutputCommands();
-        initializePowerCommands2("/home/pi/Desktop/SpeechRaspberrySmartHouse/commands.txt");
+        initializePowerCommands2(fileCommandPath);
         String backupdeviceName=readUserName("/home/pi/Desktop/SpeechRaspberrySmartHouse/deviceName.txt");
+
+
        if (backupdeviceName!=null){
            deviceName=backupdeviceName;
        }
