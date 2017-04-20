@@ -407,14 +407,14 @@ public class Fr extends JFrame
 
             button.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-
+                    try {
                     if(button.getBackground()==Color.GREEN){state="off";}else{
                         state="on";
                     }
 
                     String command =button.getText();
 
-                    try {
+
                         if(toggle.getText().equals("Output Mode")){
                             sh.processLedString(command + " " + state);
                             sh.sendToAll("switch "+command + " " + state);

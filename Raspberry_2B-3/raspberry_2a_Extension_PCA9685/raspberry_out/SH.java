@@ -32,7 +32,7 @@ public class SH {
 
     private DatagramSocket serverSocket;
     protected DB db;
-private final int maxInputs=40;
+    private final int maxInputs=40;
     //// user editable part
     // Pay attention on **
     private static  int NumberOfBindingCommands = 6;// ** Number of commands you want to bind with one or more outputs.
@@ -89,32 +89,31 @@ private final int maxInputs=40;
             int counter =0;
             while ((line = br.readLine()) != null) {
                 // Deal with the line
-                NumberOfBindingCommands=counter;
                 if (line.replaceAll(" ","").equals("")){
-                    continue;
+                    break;
                 }
 
                 String commandString=line.split("@@")[0];
                 String[] commands=commandString.split(",,");////////////////
-//                for (String s:commands){
-//
-//                    System.out.print(s+",");
-//
-//                }
+                for (String s:commands){
+
+                    System.out.print(s+",");
+
+                }
 
                 String numberListString=line.split("@@")[1];
                 String numbersString[] =numberListString.split(",");
                 Integer[] numbers=new Integer[numbersString.length];////////////////
-//                System.out.println();
                 for (  int i=0;i<numbersString.length;i++){
                     numbers[i]= Integer.parseInt(numbersString[i].replaceAll(" ",""));
-//                    System.out.println("numbers"+  numbersString[i].replaceAll(" ","")+" ");
+                    System.out.println("::"+  numbersString[i].replaceAll(" ","")+" ");
                 }
 
 
                 addCommandsAndPorts(counter ,// number of command
                         commands,numbers
                 );
+//                NumberOfBindingCommands=counter;
 
                 counter ++;
 
@@ -128,6 +127,38 @@ private final int maxInputs=40;
             e.printStackTrace();
         }
 
+
+    }
+
+
+
+    private int powerCommandFileLength(String fileName){
+
+
+        String line;
+        int NumberOfBindingCommands=20;
+
+        BufferedReader br;
+        try {
+            InputStream fis = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            br = new BufferedReader(isr);
+            int counter =0;
+            while ((line = br.readLine()) != null) {
+                // Deal with the line
+                if (line.replaceAll(" ","").equals("")){
+                    break;
+                }
+                counter++;
+                NumberOfBindingCommands=counter;
+
+
+//                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return (NumberOfBindingCommands);
 
     }
     ///**
@@ -202,8 +233,8 @@ private final int maxInputs=40;
     }
 
     //// end of user editable part
-    protected ArrayList<String>[] outputPowerCommands = new ArrayList[NumberOfBindingCommands];
-    private ArrayList<Integer>[] activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
+    protected ArrayList<String>[] outputPowerCommands ;
+    private ArrayList<Integer>[] activatePortOnCommand ;
     private static final int raspberryOutputs = 40;
     private static final int raspberryInputs = 0;
     protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
@@ -233,9 +264,11 @@ private final int maxInputs=40;
     //             }
     //         };
     PCA9685GpioProvider provider;
-
+    String fileCommandPath="/home/pi/Desktop/SpeechRaspberrySmartHouse/commands.txt";
     public SH() {
         //   allPorts.add(port);
+
+
 
         BigDecimal frequency = new BigDecimal("48.828");
         // Correction factor: actualFreq / targetFreq
@@ -256,23 +289,26 @@ private final int maxInputs=40;
             Logger.getLogger(SH.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        NumberOfBindingCommands= powerCommandFileLength(fileCommandPath);
+        outputPowerCommands = new ArrayList[NumberOfBindingCommands];
+        activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
+
         initArrays();
         initStates();
 
         initializeOutputCommands();
-        initializePowerCommands2("/home/pi/Desktop/SpeechRaspberrySmartHouse/commands.txt");
+        initializePowerCommands2(fileCommandPath);
         String backupdeviceName=readUserName("/home/pi/Desktop/SpeechRaspberrySmartHouse/deviceName.txt");
+
+
         if (backupdeviceName!=null){
             deviceName=backupdeviceName;
         }
         initGpioPinDigitalOutputs();
-//        initInputListeners(); // remove comment if you have input plug in
-
         initInputListeners(); // remove comment if you have input plug in
         db = new DB(this);
         new SheduleThread().start();
     }
-
     private void initArrays() {
         //outputPowerCommands = new ArrayList[NumberOfBindingCommands];
         for (int i = 0; i < NumberOfBindingCommands; i++) {
