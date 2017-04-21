@@ -1,23 +1,13 @@
-
-/**
- * Write a description of class Fr here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import java.util.Date;
 
-import javax.swing.text.StyledDocument;
-import javax.swing.text.StyleContext;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Style;
 
 public class Fr extends JFrame
 {
@@ -51,14 +41,16 @@ public class Fr extends JFrame
      */
     double width,height;
     private String usinAlarmText;
+    boolean isReadyToShowTime=true;
     public Fr(SH sh)
     {
         this.sh=sh;
         Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
         width=screenSize.getWidth();
         height=screenSize.getHeight();
+        speechTextLabel= new JLabel();
 
-    
+
         //      StyleContext context = new StyleContext();
         //     StyledDocument document = new DefaultStyledDocument(context);
         // 
@@ -74,7 +66,6 @@ public class Fr extends JFrame
         //           speechTextLabel= new JTextPane();
         //       e.printStackTrace();
         //     }
-        speechTextLabel= new JLabel();
 
         //      SimpleAttributeSet attribs = new SimpleAttributeSet();
         //StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
@@ -124,120 +115,133 @@ public class Fr extends JFrame
         auto= new JButton(automationIcon);
         home= new JButton(homeIcon);
         home.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    goHome();
-                    isOnMainMenu=true;
-                    SheduleView.selectedOption=null;
+            public void actionPerformed(ActionEvent e){
+                goHome();
+                isOnMainMenu=true;
+                SheduleView.selectedOption=null;
 
-                }
-            });
+            }
+        });
 
         timer.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    new TimerView(Fr.this);
-                }
-            });
+            public void actionPerformed(ActionEvent e){
+                new TimerView(Fr.this);
+            }
+        });
 
         auto.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e){
 
-                    new SheduleView(Fr.this);
-                }
-            });
+                new SheduleView(Fr.this);
+            }
+        });
         alarmButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e){
 
-                    if(alarmButton.getIcon()==null){ // is already activated
-                        speechTextLabel.setText("Cancel alarm ?");
-                        findMobileButton.setIcon(cancelOkIcon) ;
-                        alarmButton.setIcon(cancelNot_okIcon);
-                        usinAlarmText=alarmButton.getText();
-                        alarmButton.setText("");
-                    }else if(alarmButton.getIcon()==cancelNot_okIcon){
-                        findMobileButton.setIcon(findMobileIcon) ;
-                        speechTextLabel.setText("");
-                        alarmButton.setText(usinAlarmText);
-                        if(  sh.jarvis.hasAlarm)
-                            alarmButton.setIcon(null);
-                        else{
-                            alarmButton.setIcon(alarmIcon);
-                        }
-                    }else if(alarmButton.getIcon()==alarmIcon){
-                        if(sh.jarvis.alarmProcess!=null&&sh.jarvis.alarmProcess.isAlive()){
-                            sh.jarvis.alarmProcess.destroy();
-                        }else
-                            showOrHideNewAlarm();
-                    }
+                if(alarmButton.getIcon()==null){ // is already activated
+                    isReadyToShowTime=false;
+                    speechTextLabel.setText("Cancel alarm ?");
+                    findMobileButton.setIcon(cancelOkIcon) ;
+                    alarmButton.setIcon(cancelNot_okIcon);
+                    usinAlarmText=alarmButton.getText();
+                    alarmButton.setText("");
+                }else if(alarmButton.getIcon()==cancelNot_okIcon){
+                    findMobileButton.setIcon(findMobileIcon) ;
+                    speechTextLabel.setText("");
+                    isReadyToShowTime=true;
 
-                }
-            });
-        toggle.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    if(toggle!=null)
-                        toggle.setEnabled(false);
-                    if(!toggle.isSelected()){
+                    alarmButton.setText(usinAlarmText);
+                    if(  sh.jarvis.hasAlarm) {
+                        alarmButton.setIcon(null);
+                        isReadyToShowTime = true;
 
-                        toggle.setText("Commands Mode");
-                        manualSelected();
                     }else{
-                        toggle.setText("Output Mode");
-                        manualSelected();
-
-                    }
-
-                    if(toggle!=null)
-                        toggle.setEnabled(true);
-
-                }
-            });
-        findMobileButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-
-                    if(  findMobileButton.getIcon()==findMobileIcon ){
-                        new Thread(){public void run(){
-                                try{
-                                    findMobileButton.setEnabled(false);
-                                    sh.jarvis.findMobile();
-                                    findMobileButton.setIcon(findMobileAbcIcon) ;
-                                    sleep(4000);
-                                    findMobileButton.setEnabled(true);
-                                    findMobileButton.setIcon(findMobileIcon) ;
-
-                                }catch(Exception e){
-                                }
-                            }}.start();}else if(findMobileButton.getIcon()==cancelOkIcon){
-
                         alarmButton.setIcon(alarmIcon);
+                        isReadyToShowTime=true;
 
-                        speechTextLabel.setText("Alarm canceled.");
-                        findMobileButton.setIcon(findMobileIcon) ;
-
-                        sh.jarvis.hasAlarm=false;
                     }
+                }else if(alarmButton.getIcon()==alarmIcon){
+                    if(sh.jarvis.alarmProcess!=null&&sh.jarvis.alarmProcess.isAlive()){
+                        sh.jarvis.alarmProcess.destroy();
+                        isReadyToShowTime=true;
+
+                    }else
+                        showOrHideNewAlarm();
+                }
+
+            }
+        });
+        toggle.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if(toggle!=null)
+                    toggle.setEnabled(false);
+                if(!toggle.isSelected()){
+
+                    toggle.setText("Commands Mode");
+                    manualSelected();
+                }else{
+                    toggle.setText("Output Mode");
+                    manualSelected();
 
                 }
-            });
+
+                if(toggle!=null)
+                    toggle.setEnabled(true);
+
+            }
+        });
+        findMobileButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+
+                if(  findMobileButton.getIcon()==findMobileIcon ){
+                    new Thread(){public void run(){
+                        try{
+                            findMobileButton.setEnabled(false);
+                            sh.jarvis.findMobile();
+                            findMobileButton.setIcon(findMobileAbcIcon) ;
+                            sleep(4000);
+                            findMobileButton.setEnabled(true);
+                            findMobileButton.setIcon(findMobileIcon) ;
+
+                        }catch(Exception e){
+                        }
+                    }}.start();}else if(findMobileButton.getIcon()==cancelOkIcon){
+
+                    alarmButton.setIcon(alarmIcon);
+
+                    speechTextLabel.setText("Alarm canceled.");
+                    isReadyToShowTime=true;
+                    findMobileButton.setIcon(findMobileIcon) ;
+
+                    sh.jarvis.hasAlarm=false;
+                }
+
+            }
+        });
         this.setSize((int)width,(int)height);
         mainMenu();
         setLocation(0,0);
-        
-         manual.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    manualSelected();
+
+        manual.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                manualSelected();
+            }
+        });
+        speechButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if(speechButton.getIcon()==speechIcon){
+                    sh.jarvis.activate();
+
+                }else if(speechButton.getIcon()==stop_speechIcon){
+                    sh.jarvis.deActivate();
                 }
-            });
-          speechButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    if(speechButton.getIcon()==speechIcon){
-                        sh.jarvis.activate();
-                    }else if(speechButton.getIcon()==stop_speechIcon){
-                        sh.jarvis.deActivate();
-                    }
-                }
-            });
+            }
+        });
+
+        showTime();
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);    
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 
@@ -262,6 +266,35 @@ public class Fr extends JFrame
         extraInfoPanel.revalidate();
     }
 
+    boolean dotBoolean=true;
+
+    void showTime(){
+        dotBoolean=true;
+        new Thread(){
+
+            @Override
+            public void run() {
+                while(true){
+
+                    try {
+                        sleep(1000);
+
+                        if (!isOnMainMenu||speechButton==null||speechButton.getIcon()==null
+                                ||speechButton.getIcon()!=speechIcon||!isReadyToShowTime){
+                            continue;
+
+                        }
+                        if(speechTextLabel==null){
+                            continue;
+                        }
+                        speechTextLabel.setText(getStringTimeDate());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+    }
     JPanel mainMenuPanel;
     void mainMenu(){
         shv=null;
@@ -281,7 +314,7 @@ public class Fr extends JFrame
 
             speechButton.setIcon(stop_speechIcon);
         }
-      
+
 
         JPanel lineBeginExtraPanel= new JPanel();
         lineBeginExtraPanel.setLayout(new GridLayout(1,2));
@@ -310,7 +343,7 @@ public class Fr extends JFrame
         menuPanel.add(auto);
         mainMenuPanel.add(menuPanel);
         mainMenuPanel.add(extraInfoPanel,BorderLayout.PAGE_END);
-       
+
         add(mainMenuPanel);
         mainMenuPanel.repaint();
         mainMenuPanel.revalidate();
@@ -373,33 +406,33 @@ public class Fr extends JFrame
             center.add(button);
 
             button.addActionListener(new ActionListener(){
-                    public void actionPerformed(ActionEvent e){
-
-                        if(button.getBackground()==Color.GREEN){state="off";}else{
-                            state="on";
-                        }
-
-                        String command =button.getText();
-
-                        try {
-                            if(toggle.getText().equals("Output Mode")){
-                                sh.processLedString(command + " " + state);
-                                sh.sendToAll("switch "+command + " " + state);
-                                System.out.println("pressed:"+command + " " + state);
-                                sh.sendTheUpdates(command + " " + state);
-                            }else{
-                                sh.processCommandString(command + " " + state);
-                                sh.sendToAll("switch "+command + " " + state);
-                                System.out.println("pressed:"+command + " " + state);
-                                sh.sendTheUpdates(command + " " + state);
-                            }
-
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-
+                public void actionPerformed(ActionEvent e){
+                    try {
+                    if(button.getBackground()==Color.GREEN){state="off";}else{
+                        state="on";
                     }
-                });
+
+                    String command =button.getText();
+
+
+                        if(toggle.getText().equals("Output Mode")){
+                            sh.processLedString(command + " " + state);
+                            sh.sendToAll("switch "+command + " " + state);
+                            System.out.println("pressed:"+command + " " + state);
+                            sh.sendTheUpdates(command + " " + state);
+                        }else{
+                            sh.processCommandString(command + " " + state);
+                            sh.sendToAll("switch "+command + " " + state);
+                            System.out.println("pressed:"+command + " " + state);
+                            sh.sendTheUpdates(command + " " + state);
+                        }
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+            });
 
             for(int j=0;j<outputs.length;j++){
                 boolean isOn=false;
@@ -412,7 +445,7 @@ public class Fr extends JFrame
                     textNeededFromOutput=outputs[j].substring(0,outputs[j].length()-1-"off".length());
                     isOn=false;
                 }
-                
+
 
                 if(textNeededFromOutput!=null&&textNeededFromOutput.equals(button.getText())){
                     if(isOn){
@@ -539,77 +572,77 @@ public class Fr extends JFrame
             minPanel.setLayout(new GridLayout(4,1));
             secPanel.setLayout(new GridLayout(4,1));
             JButton hourup= new JButton(upIcon),hourdown= new JButton(downIcon),
-            minup= new JButton(upIcon),mindown= new JButton(downIcon),
-            secup= new JButton(upIcon),secdown= new JButton(downIcon);
+                    minup= new JButton(upIcon),mindown= new JButton(downIcon),
+                    secup= new JButton(upIcon),secdown= new JButton(downIcon);
 
             hourup.addMouseListener(new MouseAdapter() {
-                    boolean isPressed=false;
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        isPressed=true;
-                        new Thread(){public void run(){
-                                while(isPressed){
-                                    hours=Integer.parseInt(hourValues.getText());
-                                    if(hours>=23){
-                                        hours=0;
-                                    }else{
-                                        hours++;}       
-                                    String hoursString="";
-                                    if(hours>9){
-                                        hoursString=Integer.toString(hours);
-                                    }else{
-                                        hoursString="0"+Integer.toString(hours);
-                                    }
-                                    hourValues.setText(hoursString);
+                boolean isPressed=false;
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    isPressed=true;
+                    new Thread(){public void run(){
+                        while(isPressed){
+                            hours=Integer.parseInt(hourValues.getText());
+                            if(hours>=23){
+                                hours=0;
+                            }else{
+                                hours++;}
+                            String hoursString="";
+                            if(hours>9){
+                                hoursString=Integer.toString(hours);
+                            }else{
+                                hoursString="0"+Integer.toString(hours);
+                            }
+                            hourValues.setText(hoursString);
 
-                                    try{
-                                        Thread.sleep(300);
-                                    }catch(Exception ee){} 
-                                } 
-                            }}.start();
-                    }
+                            try{
+                                Thread.sleep(300);
+                            }catch(Exception ee){}
+                        }
+                    }}.start();
+                }
 
-                    public void mouseReleased(MouseEvent e) {
-                        isPressed=false; 
+                public void mouseReleased(MouseEvent e) {
+                    isPressed=false;
 
-                    }
+                }
 
-                });
+            });
 
             hourdown.addMouseListener(new MouseAdapter() {
-                  
-                  boolean isPressed=false;
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        isPressed=true;
-                        new Thread(){public void run(){
-                                while(isPressed){
-                                    hours=Integer.parseInt(hourValues.getText());
-                                    if(hours<=0){
-                                        hours=23;
-                                    }else{
-                                        hours--;}       
-                                    String hoursString="";
-                                    if(hours>9){
-                                        hoursString=Integer.toString(hours);
-                                    }else{
-                                        hoursString="0"+Integer.toString(hours);
-                                    }
-                                    hourValues.setText(hoursString);
 
-                                    try{
-                                        Thread.sleep(300);
-                                    }catch(Exception ee){} 
-                                } 
-                            }}.start();
-                    }
+                boolean isPressed=false;
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    isPressed=true;
+                    new Thread(){public void run(){
+                        while(isPressed){
+                            hours=Integer.parseInt(hourValues.getText());
+                            if(hours<=0){
+                                hours=23;
+                            }else{
+                                hours--;}
+                            String hoursString="";
+                            if(hours>9){
+                                hoursString=Integer.toString(hours);
+                            }else{
+                                hoursString="0"+Integer.toString(hours);
+                            }
+                            hourValues.setText(hoursString);
 
-                    public void mouseReleased(MouseEvent e) {
-                        isPressed=false; 
+                            try{
+                                Thread.sleep(300);
+                            }catch(Exception ee){}
+                        }
+                    }}.start();
+                }
 
-                    }});
-                
-               
+                public void mouseReleased(MouseEvent e) {
+                    isPressed=false;
+
+                }});
+
+
             // hourSlider= new JSlider(0,23);
             //hourSlider.setValue(0);
             //hourSlider.addChangeListener(new ChangeListener(){
@@ -633,139 +666,139 @@ public class Fr extends JFrame
             //   minSlider.setValue(0);
             //  minSlider.addChangeListener(new ChangeListener(){
 
-             minup.addMouseListener(new MouseAdapter() {
-                    boolean isPressed=false;
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        isPressed=true;
-                        new Thread(){public void run(){
-                                while(isPressed){
-                                    min=Integer.parseInt(minValues.getText());
-                                    if(min>=59){
-                                        min=0;
-                                    }else{
-                                        min++;}       
-                                    String minString="";
-                                    if(min>9){
-                                        minString=Integer.toString(min);
-                                    }else{
-                                       minString="0"+Integer.toString(min);
-                                    }
-                                    minValues.setText(minString);
+            minup.addMouseListener(new MouseAdapter() {
+                boolean isPressed=false;
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    isPressed=true;
+                    new Thread(){public void run(){
+                        while(isPressed){
+                            min=Integer.parseInt(minValues.getText());
+                            if(min>=59){
+                                min=0;
+                            }else{
+                                min++;}
+                            String minString="";
+                            if(min>9){
+                                minString=Integer.toString(min);
+                            }else{
+                                minString="0"+Integer.toString(min);
+                            }
+                            minValues.setText(minString);
 
-                                    try{
-                                        Thread.sleep(200);
-                                    }catch(Exception ee){} 
-                                } 
-                            }}.start();
-                    }
+                            try{
+                                Thread.sleep(200);
+                            }catch(Exception ee){}
+                        }
+                    }}.start();
+                }
 
-                    public void mouseReleased(MouseEvent e) {
-                        isPressed=false; 
+                public void mouseReleased(MouseEvent e) {
+                    isPressed=false;
 
-                    }
+                }
 
-                });
+            });
 
             mindown.addMouseListener(new MouseAdapter() {
-                  
-                  boolean isPressed=false;
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        isPressed=true;
-                        new Thread(){public void run(){
-                                while(isPressed){
-                                    min=Integer.parseInt(minValues.getText());
-                                    if(min<=0){
-                                        min=59;
-                                    }else{
-                                        min--;}       
-                                    String minString="";
-                                    if(min>9){
-                                        minString=Integer.toString(min);
-                                    }else{
-                                        minString="0"+Integer.toString(min);
-                                    }
-                                    minValues.setText(minString);
 
-                                    try{
-                                        Thread.sleep(200);
-                                    }catch(Exception ee){} 
-                                } 
-                            }}.start();
-                    }
+                boolean isPressed=false;
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    isPressed=true;
+                    new Thread(){public void run(){
+                        while(isPressed){
+                            min=Integer.parseInt(minValues.getText());
+                            if(min<=0){
+                                min=59;
+                            }else{
+                                min--;}
+                            String minString="";
+                            if(min>9){
+                                minString=Integer.toString(min);
+                            }else{
+                                minString="0"+Integer.toString(min);
+                            }
+                            minValues.setText(minString);
 
-                    public void mouseReleased(MouseEvent e) {
-                        isPressed=false; 
+                            try{
+                                Thread.sleep(200);
+                            }catch(Exception ee){}
+                        }
+                    }}.start();
+                }
 
-                    }});
+                public void mouseReleased(MouseEvent e) {
+                    isPressed=false;
 
-              secup.addMouseListener(new MouseAdapter() {
-                    boolean isPressed=false;
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        isPressed=true;
-                        new Thread(){public void run(){
-                                while(isPressed){
-                                    sec=Integer.parseInt(secValues.getText());
-                                    if(sec>=59){
-                                        sec=0;
-                                    }else{
-                                        sec++;}       
-                                    String secString="";
-                                    if(sec>9){
-                                        secString=Integer.toString(sec);
-                                    }else{
-                                       secString="0"+Integer.toString(sec);
-                                    }
-                                    secValues.setText(secString);
+                }});
 
-                                    try{
-                                        Thread.sleep(200);
-                                    }catch(Exception ee){} 
-                                } 
-                            }}.start();
-                    }
+            secup.addMouseListener(new MouseAdapter() {
+                boolean isPressed=false;
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    isPressed=true;
+                    new Thread(){public void run(){
+                        while(isPressed){
+                            sec=Integer.parseInt(secValues.getText());
+                            if(sec>=59){
+                                sec=0;
+                            }else{
+                                sec++;}
+                            String secString="";
+                            if(sec>9){
+                                secString=Integer.toString(sec);
+                            }else{
+                                secString="0"+Integer.toString(sec);
+                            }
+                            secValues.setText(secString);
 
-                    public void mouseReleased(MouseEvent e) {
-                        isPressed=false; 
+                            try{
+                                Thread.sleep(200);
+                            }catch(Exception ee){}
+                        }
+                    }}.start();
+                }
 
-                    }
+                public void mouseReleased(MouseEvent e) {
+                    isPressed=false;
 
-                });
+                }
+
+            });
 
             secdown.addMouseListener(new MouseAdapter() {
-                  
-                  boolean isPressed=false;
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        isPressed=true;
-                        new Thread(){public void run(){
-                                while(isPressed){
-                                    sec=Integer.parseInt(secValues.getText());
-                                    if(sec<=0){
-                                        sec=59;
-                                    }else{
-                                        sec--;}       
-                                    String secString="";
-                                    if(sec>9){
-                                        secString=Integer.toString(sec);
-                                    }else{
-                                        secString="0"+Integer.toString(sec);
-                                    }
-                                    secValues.setText(secString);
 
-                                    try{
-                                        Thread.sleep(300);
-                                    }catch(Exception ee){} 
-                                } 
-                            }}.start();
-                    }
+                boolean isPressed=false;
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    isPressed=true;
+                    new Thread(){public void run(){
+                        while(isPressed){
+                            sec=Integer.parseInt(secValues.getText());
+                            if(sec<=0){
+                                sec=59;
+                            }else{
+                                sec--;}
+                            String secString="";
+                            if(sec>9){
+                                secString=Integer.toString(sec);
+                            }else{
+                                secString="0"+Integer.toString(sec);
+                            }
+                            secValues.setText(secString);
 
-                    public void mouseReleased(MouseEvent e) {
-                        isPressed=false; 
+                            try{
+                                Thread.sleep(300);
+                            }catch(Exception ee){}
+                        }
+                    }}.start();
+                }
 
-                    }});
+                public void mouseReleased(MouseEvent e) {
+                    isPressed=false;
+
+                }});
 
             hourLabel= new JLabel("Hours:");
             minLabel= new JLabel("Minutes:");
@@ -777,12 +810,12 @@ public class Fr extends JFrame
             hourLabel.setHorizontalAlignment(SwingConstants.CENTER);
             hourValues.setHorizontalAlignment(SwingConstants.CENTER);
 
-            hourPanel.add(hourLabel); 
-            hourPanel.add(hourup); 
+            hourPanel.add(hourLabel);
+            hourPanel.add(hourup);
             Font f = hourLabel.getFont();
             // bold
             hourLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-            hourLabel.setForeground(Color.BLUE)  ;         
+            hourLabel.setForeground(Color.BLUE)  ;
 
             minLabel.setHorizontalAlignment(SwingConstants.CENTER);
             minValues.setHorizontalAlignment(SwingConstants.CENTER);
@@ -795,10 +828,10 @@ public class Fr extends JFrame
 
             // bold
             secLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-            secPanel.add(secLabel); 
-            secPanel.add(secup); 
-            minLabel.setForeground(Color.BLUE)  ;         
-            secLabel.setForeground(Color.BLUE)  ;         
+            secPanel.add(secLabel);
+            secPanel.add(secup);
+            minLabel.setForeground(Color.BLUE)  ;
+            secLabel.setForeground(Color.BLUE)  ;
             minPanel.add(minLabel);
             minPanel.add(minup);
 
@@ -823,28 +856,28 @@ public class Fr extends JFrame
 
             JButton save= new JButton(),cancel=new JButton();
             save.addActionListener(new ActionListener(){
-                    public void actionPerformed(ActionEvent e){
-                        try{
-                            int hour=Integer.parseInt(hourValues.getText())
-                            ,min=Integer.parseInt(minValues.getText())
-                            ,sec=Integer.parseInt(secValues.getText());
-                            sh.jarvis.alarmAtTime(hour, min,sec);
-                        }catch(Exception ex){
-                            ex.printStackTrace();
-                        }
+                public void actionPerformed(ActionEvent e){
+                    try{
+                        int hour=Integer.parseInt(hourValues.getText())
+                                ,min=Integer.parseInt(minValues.getText())
+                                ,sec=Integer.parseInt(secValues.getText());
+                        sh.jarvis.alarmAtTime(hour, min,sec);
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
 
-                        extraInfoPanel.remove(addAlarmPanel);
-                        extraInfoPanel.repaint();
-                        extraInfoPanel.revalidate();
-                    }
-                });
+                    extraInfoPanel.remove(addAlarmPanel);
+                    extraInfoPanel.repaint();
+                    extraInfoPanel.revalidate();
+                }
+            });
             cancel.addActionListener(new ActionListener(){
-                    public void actionPerformed(ActionEvent e){
-                        extraInfoPanel.remove(addAlarmPanel);
-                        extraInfoPanel.repaint();
-                        extraInfoPanel.revalidate();
-                    }
-                });
+                public void actionPerformed(ActionEvent e){
+                    extraInfoPanel.remove(addAlarmPanel);
+                    extraInfoPanel.repaint();
+                    extraInfoPanel.revalidate();
+                }
+            });
             save.setIcon(cancelOkIcon);
             cancel.setIcon(cancelNot_okIcon);
 
@@ -857,6 +890,13 @@ public class Fr extends JFrame
         private int getRemainingTimeToSeconds(){
             return hours*60*60+min*60+sec;
         }
+    }
+
+    private String getStringTimeDate(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        return (dateFormat.format(date));
+
     }
 
     class MyTextPane extends JTextPane {

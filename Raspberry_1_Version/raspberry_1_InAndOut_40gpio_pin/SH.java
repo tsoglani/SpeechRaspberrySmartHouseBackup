@@ -4,6 +4,7 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import java.io.*;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,12 +22,22 @@ public class SH {
 
     //// user editable part
     // Pay attention on **
-    private static final int NumberOfBindingCommands=6;// ** Number of commands you want to bind with one or more outputs.
+    private static  int NumberOfBindingCommands=6;// ** Number of commands you want to bind with one or more outputs.
 
     private final static int port = 2222; // default port can change it, but you have to change it also in android device,
     //not recomented to change it
 
-    private final static String deviceName = "home";// ** is used for global connection for safety, must put it on android device name field in global connection option.
+    private  static String deviceName = "home";// ** is used for global connection for safety, must put it on android device name field in global connection option.
+    ArrayList<String>[] outputPowerCommands ;
+    private ArrayList<Integer>[] activatePortOnCommand ;
+    private final int raspberryOutputs=11;// 0 - 20
+    private final int raspberryInputs=10;// 0 - 20
+    int maxInputs=10;
+    protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
+    private ArrayList<GpioPinDigitalInput>[] inputButtons = new ArrayList[raspberryOutputs];
+    private  GpioPinDigitalOutput pins[]= new  GpioPinDigitalOutput[raspberryOutputs];
+    private ArrayList<String> ON, OFF;// = "on", OFF = "off";// word you have to use at the end of the command to activate or deactivate
+    private ArrayList<String> ONAtTheStartOfSentence, OFFAtTheStartOfSentence;
 
     ///** every startingDeviceID must be unique in every raspberry device contected in local network.
     final static int DeviceID=0; // Example: if we have 4 raspberry devices connected in local network, each one MUST have a unique ID :
@@ -37,7 +48,120 @@ public class SH {
     // these are the commannds that each device can receive and react,
     // so every outputPowerCommand must be unique in every device contected in local network.
 
+    public static String readUserName(String fileName){
 
+
+        String line=null,output=null;
+        BufferedReader br;
+        try {
+            InputStream fis = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            br = new BufferedReader(isr);
+            while ((line = br.readLine()) != null) {
+                // Deal with the line
+
+                if (line.startsWith("username:")){
+                    output=line.substring("username:".length(),line.length());
+                }else{
+                    continue;
+
+                }
+
+
+
+
+//                System.out.println();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return output;
+
+    }
+    private void initializePowerCommands2(String fileName) {
+        String line;
+        BufferedReader br;
+        try {
+            InputStream fis = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            br = new BufferedReader(isr);
+            int counter =0;
+            while ((line = br.readLine()) != null) {
+                // Deal with the line
+                if (line.replaceAll(" ","").equals("")){
+                    break;
+                }
+
+                String commandString=line.split("@@")[0];
+                String[] commands=commandString.split(",,");////////////////
+                for (String s:commands){
+
+                    System.out.print(s+",");
+
+                }
+
+                String numberListString=line.split("@@")[1];
+                String numbersString[] =numberListString.split(",");
+                Integer[] numbers=new Integer[numbersString.length];////////////////
+                for (  int i=0;i<numbersString.length;i++){
+                    numbers[i]= Integer.parseInt(numbersString[i].replaceAll(" ",""));
+                    System.out.println("::"+  numbersString[i].replaceAll(" ","")+" ");
+                }
+
+
+                addCommandsAndPorts(counter ,// number of command
+                        commands,numbers
+                );
+//                NumberOfBindingCommands=counter;
+
+                counter ++;
+
+                if (counter>=maxInputs){
+
+                    break;
+                }
+//                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
+    private int powerCommandFileLength(String fileName){
+
+
+        String line;
+        int NumberOfBindingCommands=20;
+
+        BufferedReader br;
+        try {
+            InputStream fis = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            br = new BufferedReader(isr);
+            int counter =0;
+            while ((line = br.readLine()) != null) {
+                // Deal with the line
+                if (line.replaceAll(" ","").equals("")){
+                    break;
+                }
+                counter++;
+                NumberOfBindingCommands=counter;
+
+
+//                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return (NumberOfBindingCommands);
+
+    }
 
     // on addCommandsAndPorts function RECOMENDER LOWER CASE TEXT
     private void initializePowerCommands(){
@@ -110,16 +234,7 @@ public class SH {
 
     //// end of user editable part
 
-    ArrayList<String>[] outputPowerCommands = new ArrayList[NumberOfBindingCommands];
-    private ArrayList<Integer>[] activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
-    private final int raspberryOutputs=11;// 0 - 20
-    private final int raspberryInputs=10;// 0 - 20
-    protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
-    private ArrayList<GpioPinDigitalInput>[] inputButtons = new ArrayList[raspberryOutputs];
-    private  GpioPinDigitalOutput pins[]= new  GpioPinDigitalOutput[raspberryOutputs];
-    private ArrayList<String> ON, OFF;// = "on", OFF = "off";// word you have to use at the end of the command to activate or deactivate
-    private ArrayList<String> ONAtTheStartOfSentence, OFFAtTheStartOfSentence;
-    //     private ArrayList<InetAddress> addresses = new ArrayList<InetAddress>() {
+     //     private ArrayList<InetAddress> addresses = new ArrayList<InetAddress>() {
     //
     //             @Override
     //             public boolean add(InetAddress e) {
@@ -141,16 +256,27 @@ public class SH {
     //             }
     //         };
 
+    String fileCommandPath="/home/pi/Desktop/SpeechRaspberrySmartHouse/commands.txt";
     public SH() {
         //   allPorts.add(port);
+        NumberOfBindingCommands= powerCommandFileLength(fileCommandPath);
+        outputPowerCommands = new ArrayList[NumberOfBindingCommands];
+        activatePortOnCommand = new ArrayList[NumberOfBindingCommands];
+
         initArrays();
         initStates();
 
         initializeOutputCommands();
-        initializePowerCommands();
+        initializePowerCommands2(fileCommandPath);
+        String backupdeviceName=readUserName("/home/pi/Desktop/SpeechRaspberrySmartHouse/deviceName.txt");
+
+
+        if (backupdeviceName!=null){
+            deviceName=backupdeviceName;
+        }
         initGpioPinDigitalOutputs();
         initInputListeners(); // remove comment if you have input plug in
-        db=new DB(this);
+        db = new DB(this);
         new SheduleThread().start();
     }
 
@@ -1008,6 +1134,7 @@ public class SH {
             this.in = in;
             System.out.println(" id " + id);
             this.id = id;
+            isHightPrevious=in.isHigh();
             this.command = outputCommands[id].get(0);
         }
 
@@ -1085,15 +1212,16 @@ public class SH {
         }
     }
 
+
     boolean isHight(GpioPinOutput pin) {
         boolean isHight = false;
 
 
 
-            GpioPinDigitalOutput ppp = (GpioPinDigitalOutput) pin;
-            if (ppp.getState().isHigh()) {
-                isHight = true;
-            }
+        GpioPinDigitalOutput ppp = (GpioPinDigitalOutput) pin;
+        if (ppp.getState().isHigh()) {
+            isHight = true;
+        }
 
 
 
