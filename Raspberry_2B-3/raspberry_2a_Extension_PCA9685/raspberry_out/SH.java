@@ -32,7 +32,6 @@ public class SH {
 
     private DatagramSocket serverSocket;
     protected DB db;
-    private final int maxInputs=40;
     //// user editable part
     // Pay attention on **
     private static  int NumberOfBindingCommands = 6;// ** Number of commands you want to bind with one or more outputs.
@@ -117,10 +116,7 @@ public class SH {
 
                 counter ++;
 
-                if (counter>=maxInputs){
-
-                    break;
-                }
+              
 //                System.out.println();
             }
         }catch (Exception e){
@@ -305,7 +301,7 @@ public class SH {
             deviceName=backupdeviceName;
         }
         initGpioPinDigitalOutputs();
-      //  initInputListeners(); // remove comment if you have not input plug in
+        //  initInputListeners(); // remove comment if you have not input plug in
         db = new DB(this);
         new SheduleThread().start();
     }

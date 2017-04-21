@@ -25,7 +25,6 @@ public class SH {
     //// user editable part
     // Pay attention on **
     private static  int NumberOfBindingCommands = 13;// ** Number of commands you want to bind with one or more outputs.
-    private final int maxInputs =13;
     private final static int port = 2222; // default port can change it, but you have to change it also in android device,
     //not recomented to change it
 
@@ -115,10 +114,7 @@ public class SH {
 
                 counter ++;
 
-                if (counter>=maxInputs){
-
-                    break;
-                }
+               
 //                System.out.println();
             }
         }catch (Exception e){

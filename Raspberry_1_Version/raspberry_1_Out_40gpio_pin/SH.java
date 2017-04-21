@@ -39,7 +39,7 @@ public class SH {
     public final static int DeviceID=0; // Example: if we have 4 raspberry devices connected in local network, each one MUST have a unique ID :
     // the first Ruspberry device DeviceID will be 0, the second device's DeviceID will be 1
     // the third will be 2 the fourth will be 3 ...    (it is very important)
-    private final int maxInputs=21;
+
     protected ArrayList<String>[] outputPowerCommands ;
     private ArrayList<Integer>[] activatePortOnCommand ;
     private final int raspberryOutputs=21;// 0 - 20
@@ -124,10 +124,7 @@ public class SH {
 
                 counter ++;
 
-                if (counter>=maxInputs){
-
-                    break;
-                }
+              
 //                System.out.println();
             }
         }catch (Exception e){

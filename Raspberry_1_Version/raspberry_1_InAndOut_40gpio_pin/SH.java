@@ -32,7 +32,7 @@ public class SH {
     private ArrayList<Integer>[] activatePortOnCommand ;
     private final int raspberryOutputs=11;// 0 - 20
     private final int raspberryInputs=10;// 0 - 20
-    int maxInputs=10;
+
     protected ArrayList<String>[] outputCommands = new ArrayList[raspberryOutputs];
     private ArrayList<GpioPinDigitalInput>[] inputButtons = new ArrayList[raspberryOutputs];
     private  GpioPinDigitalOutput pins[]= new  GpioPinDigitalOutput[raspberryOutputs];
@@ -118,10 +118,6 @@ public class SH {
 
                 counter ++;
 
-                if (counter>=maxInputs){
-
-                    break;
-                }
 //                System.out.println();
             }
         }catch (Exception e){

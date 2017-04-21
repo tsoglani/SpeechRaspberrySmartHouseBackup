@@ -41,7 +41,6 @@ public class SH {
     //not recomented to change it
 
     private  static String deviceName = "tsoglani";// ** is used for global connection for safety, must put it on android device name field in global connection option.
-private final int maxInputs =20;
     ///** every startingDeviceID must be unique in every raspberry device contected in local network.
     final static int DeviceID = 0; // Example: if we have 4 raspberry devices connected in local network, each one MUST have a unique ID :
     // the first Ruspberry device DeviceID will be 0, the second device's DeviceID will be 1
@@ -127,16 +126,13 @@ private final int maxInputs =20;
 
 
                 addCommandsAndPorts(counter ,// number of command
-                commands,numbers
+                        commands,numbers
                 );
 //                NumberOfBindingCommands=counter;
 
                 counter ++;
 
-                if (counter>=maxInputs){
-
-    break;
-}
+               
 //                System.out.println();
             }
         }catch (Exception e){
@@ -151,34 +147,34 @@ private final int maxInputs =20;
     private int powerCommandFileLength(String fileName){
 
 
-            String line;
-            int NumberOfBindingCommands=20;
+        String line;
+        int NumberOfBindingCommands=20;
 
-            BufferedReader br;
-            try {
-                InputStream fis = new FileInputStream(fileName);
-                InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
-                br = new BufferedReader(isr);
-                int counter =0;
-                while ((line = br.readLine()) != null) {
-                    // Deal with the line
-                    if (line.replaceAll(" ","").equals("")){
-                        break;
-                    }
-                    counter++;
-                    NumberOfBindingCommands=counter;
+        BufferedReader br;
+        try {
+            InputStream fis = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            br = new BufferedReader(isr);
+            int counter =0;
+            while ((line = br.readLine()) != null) {
+                // Deal with the line
+                if (line.replaceAll(" ","").equals("")){
+                    break;
+                }
+                counter++;
+                NumberOfBindingCommands=counter;
 
 
 //                System.out.println();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
             }
-return (NumberOfBindingCommands);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return (NumberOfBindingCommands);
 
     }
 
-        private void initializePowerCommands() {
+    private void initializePowerCommands() {
 
         for (int i = 0; i < NumberOfBindingCommands; i++) {
             switch (i) {
@@ -394,9 +390,9 @@ return (NumberOfBindingCommands);
         String backupdeviceName=readUserName("/home/pi/Desktop/SpeechRaspberrySmartHouse/deviceName.txt");
 
 
-       if (backupdeviceName!=null){
-           deviceName=backupdeviceName;
-       }
+        if (backupdeviceName!=null){
+            deviceName=backupdeviceName;
+        }
         initGpioPinDigitalOutputs();
         initInputListeners(); // remove comment if you have input plug in
         db = new DB(this);

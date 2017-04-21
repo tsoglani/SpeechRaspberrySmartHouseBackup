@@ -42,7 +42,6 @@ public class SH {
     private ArrayList<String> ON, OFF;// = "on", OFF = "off";// word you have to use at the end of the command to activate or deactivate
     private ArrayList<String> ONAtTheStartOfSentence, OFFAtTheStartOfSentence;
     protected  DB db;
-    private final int maxInputs=26;
     ///** every startingDeviceID must be unique in every raspberry device contected in local network.
     public final static int DeviceID=0; // Example: if we have 4 raspberry devices connected in local network, each one MUST have a unique ID :
     // the first Ruspberry device DeviceID will be 0, the second device's DeviceID will be 1
@@ -116,11 +115,7 @@ public class SH {
 //                NumberOfBindingCommands=counter;
 
                 counter ++;
-
-                if (counter>=maxInputs){
-
-                    break;
-                }
+                
 //                System.out.println();
             }
         }catch (Exception e){
