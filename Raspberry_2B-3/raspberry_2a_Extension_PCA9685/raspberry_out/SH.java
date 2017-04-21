@@ -305,7 +305,7 @@ public class SH {
             deviceName=backupdeviceName;
         }
         initGpioPinDigitalOutputs();
-        initInputListeners(); // remove comment if you have input plug in
+      //  initInputListeners(); // remove comment if you have not input plug in
         db = new DB(this);
         new SheduleThread().start();
     }
