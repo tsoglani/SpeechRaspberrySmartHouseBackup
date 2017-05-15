@@ -4,6 +4,8 @@ http://engineering-diy.blogspot.co.uk/2 ... creen.html
 Install xinput_calibrator.
 Install some dependencies:
 sudo apt-get install libx11-dev libxext-dev libxi-dev x11proto-input-dev
+ sudo apt-get install xinput-calibrator
+
 Download xinput_calibrator somewhere in the Raspberry PI's folder structure.
 wget http://github.com/downloads/tias/xinput ... 7.5.tar.gz
 Unpack it and then navigate to the unpacked folder and then install it using:
