@@ -14,3 +14,9 @@ make
 sudo make install
 After this step you should run xinput_calibrator(from Xserver terminal console: first startx then open console and then run it).
 xinput_calibrator
+
+
+to save it permanently paste the results on "/etc/X11/xorg.conf.d/99-calibration.conf"
+
+or if this doesnt war try save it on "sudo nano /usr/share/X11/xorg.conf.d/10-evdev.conf
+"
